@@ -1,0 +1,1 @@
+export const getChatQueryKey = (id: number) => ["chat", id];
