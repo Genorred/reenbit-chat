@@ -2,10 +2,12 @@ import {create} from 'zustand'
 import {immer} from 'zustand/middleware/immer'
 import {persist} from 'zustand/middleware'
 
-type State = {
+interface State {
     user: {
-        username: string,
-        email: string,
+        id: string;
+        name: string;
+        email: string;
+        avatar?: string;
     } | null
 }
 
@@ -18,7 +20,7 @@ export const useUserStore = create<State & Actions>()(
             user: null,
             set: (user: State['user']) =>
                 set((state) => {
-                    state.user += user
+                    state.user = user
                 }),
         })),
         {

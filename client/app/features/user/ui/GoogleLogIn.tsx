@@ -3,9 +3,13 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import {$authHost} from "~/shared/lib/http";
 import {useUserStore} from "~/features/user/model/user";
+import {Button} from "~/shared/ui/Button";
+import {FcGoogle} from "react-icons/fc";
+import {useNavigate} from "react-router";
 
 
 export const GoogleLogIn = () => {
+    const navigate = useNavigate();
     const setUser = useUserStore(state => state.set);
     const googleLogin = useGoogleLogin({
         onSuccess: async (authResult) => {
@@ -16,7 +20,7 @@ export const GoogleLogIn = () => {
                 // codeVerifier: authResult.
             });
             setUser(result.data.user);
-            alert("successfuly logged in");
+            navigate('/')
         },
         onError: (errorResponse) => {
             console.log(errorResponse)
@@ -30,13 +34,11 @@ export const GoogleLogIn = () => {
     });
 
     return (
-        <button
-            style={{
-                padding: "10px 20px",
-            }}
+        <Button variant='secondary' fullWidth className='flex gap-2 justify-center items-center h-12'
             onClick={() => googleLogin()}
         >
+            <FcGoogle className='h-8 w-8'/>
             Sign in with Google
-        </button>
+        </Button>
     );
 };

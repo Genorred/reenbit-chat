@@ -11,6 +11,7 @@ interface Config {
     accessExpiration: number
     refreshExpiration: number
     googleCallback: string
+    clientUrl: string
 }
 
 const config: Config = {
@@ -21,7 +22,8 @@ const config: Config = {
     jwtSecret: process.env.JWT_SECRET || 'your-secret-key',
     accessExpiration: Number(process.env.ACCESS_TOKEN_EXPIRATION) || 900000,
     refreshExpiration: Number(process.env.REFRESH_TOKEN_EXPIRATION) || 1209600000,
-    googleCallback: process.env.GOOGLE_REDIRECT_URI || 'http://localhost:5000/api/auth/google/callback'
+    googleCallback: process.env.GOOGLE_REDIRECT_URI || 'http://localhost:5000/api/auth/google/callback',
+    clientUrl: process.env.CLIENT_URL || 'http://localhost:3000'
 };
 
 export default config;

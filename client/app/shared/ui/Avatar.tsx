@@ -1,10 +1,18 @@
 import React from 'react';
 import Img from "react-optimized-image";
-import type {ImgProps} from "react-optimized-image/lib/components/Img";
 
-const Avatar = (props: ImgProps) => {
+const Avatar = ({src, width, height}: {
+    src?: string;
+    width: number;
+    height: number;
+}) => {
     return (
-        <Img {...props} />
+        <Img src={{
+            src: src || '/defaultAvatar.svg',
+            width,
+            height,
+            format: 'webp'
+        }} />
     );
 };
 

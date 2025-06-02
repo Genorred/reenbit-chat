@@ -18,12 +18,12 @@ app.use(cors({
     origin: process.env.CLIENT_URL
 }));
 const port = process.env.SERVER_PORT || 5000;
+app.use(cookieParser());
 
 // Serve static files
 app.use(express.static('public'));
 app.use(errorHandler);
 app.use('/api', router);
-app.use(cookieParser());
 
 // Create HTTP server
 (async () => {

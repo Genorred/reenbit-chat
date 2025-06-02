@@ -1,17 +1,12 @@
 import React from 'react';
-import {useNavigate} from "react-router";
-import Button from "~/shared/ui/Button";
+import {Link} from "react-router";
+import {buttonVariants} from "~/shared/ui/Button";
 
 const LogIn = () => {
-    const navigate = useNavigate();
-
-    const onPress = () => {
-        navigate('/auth')
-    }
     return (
-        <Button onClick={onPress}>
+        <Link className={buttonVariants('primary')} to={{pathname: "/sign-in"}}>
             Log in
-        </Button>
+        </Link>
     );
 };
 

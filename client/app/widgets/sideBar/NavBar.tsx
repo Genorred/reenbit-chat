@@ -1,7 +1,7 @@
 import React from 'react';
 import {useUserStore} from "~/features/user/model/user";
-import LogOut from "~/features/user/ui/LogOut";
 import LogIn from '~/features/user/ui/LogIn';
+import {LogOut} from "~/features/user/ui/LogOut";
 
 
 const NavBar = () => {

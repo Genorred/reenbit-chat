@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import {AuthService} from './auth.service';
 import config from "../../config/config";
+import { cookieOptions, refreshCookieOptions, clearCookieOptions, clearRefreshCookieOptions } from '../../config/cookie.config';
 
 export class AuthController {
     constructor(private readonly authService: AuthService) {
@@ -9,23 +10,85 @@ export class AuthController {
     async handleGoogleCallback(req: Request, res: Response) {
         try {
             const {token} = req.body;
-            const {refreshToken, accessToken, user} = await this.authService.handleGoogleAuth(token);
-
-            const cookieOptions = (time: number) => ({
-                expires: new Date(Date.now() + time),
-                httpOnly: true,
-                path: '/',
-                sameSite: config.isProduction ? 'none' : undefined,
-                secure: config.isProduction,
-            }) as const;
-            res.cookie('accessToken', accessToken, cookieOptions(config.accessExpiration))
-                .cookie('refreshToken', refreshToken, cookieOptions(config.refreshExpiration))
-                .json({message: 'Authenticated successfully', user: user});
+            const result = await this.authService.handleGoogleAuth(token);
+            
+            res
+                .cookie('accessToken', result.accessToken, cookieOptions)
+                .cookie('refreshToken', result.refreshToken, refreshCookieOptions)
+                .status(200)
+                .json({ message: 'Аутентификация прошла успешно', user: result.user });
         } catch (error) {
             if (error instanceof Error) {
-                console.error('Error while Authenticating:', error.message);
+                console.error('Ошибка при аутентификации:', error.message);
             }
-            res.status(500).json({error: 'Error while Authenticating'});
+            res.status(500).json({ error: 'Ошибка при аутентификации' });
+        }
+    }
+
+    async register(req: Request, res: Response) {
+        try {
+            const result = await this.authService.register(req.body);
+            res
+                .cookie('accessToken', result.accessToken, cookieOptions)
+                .cookie('refreshToken', result.refreshToken, refreshCookieOptions)
+                .json({ user: result.user });
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    async login(req: Request, res: Response) {
+        try {
+            const { email, password } = req.body;
+            const result = await this.authService.login(email, password);
+            res
+                .cookie('accessToken', result.accessToken, cookieOptions)
+                .cookie('refreshToken', result.refreshToken, refreshCookieOptions)
+                .json({ user: result.user });
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    async refresh(req: Request, res: Response) {
+        try {
+            const { refreshToken } = req.body;
+            const result = await this.authService.refresh(refreshToken);
+            res
+                .cookie('accessToken', result.accessToken, cookieOptions)
+                .cookie('refreshToken', result.refreshToken, refreshCookieOptions)
+                .json({ user: result.user });
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    async logout(req: Request, res: Response) {
+        try {
+            const userId = (req as any).user.userId;
+            await this.authService.logout(userId);
+            
+            // Очищаем куки с токенами
+            res.clearCookie('accessToken', clearCookieOptions);
+            res.clearCookie('refreshToken', clearRefreshCookieOptions);
+            
+            res.json({ message: 'Выход выполнен успешно' });
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    async verifyEmail(req: Request, res: Response) {
+        try {
+            const {token} = req.params;
+            const result = await this.authService.verifyEmail(token);
+            res.status(200).json(result);
+        } catch (error) {
+            if (error instanceof Error) {
+                res.status(400).json({error: error.message});
+            } else {
+                res.status(500).json({error: 'Ошибка при подтверждении email'});
+            }
         }
     }
 } 
