@@ -1,12 +1,34 @@
-import React, {type PropsWithChildren} from 'react';
+import React, { useState } from 'react';
 import NavBar from "~/widgets/sideBar/NavBar";
 import {Outlet} from "react-router";
 import {Input} from "~/shared/ui/Input";
 import {Button} from "~/shared/ui/Button";
 import Search from "~/features/chat/ui/Search";
 import Chat from "~/features/chat/ui/Chat";
+import { CreateChatDialog } from '~/features/chat/ui/CreateChatDialog';
 
 const SideBar = () => {
+    const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+    const [chats, setChats] = useState<Array<{id: string; firstName: string; lastName: string}>>([]);
+
+    const handleCreateChat = (firstName: string, lastName: string) => {
+        const newChat = {
+            id: Date.now().toString(),
+            firstName,
+            lastName,
+        };
+        setChats([...chats, newChat]);
+    };
+
+    const handleEditChat = (id: string) => {
+        // TODO: Implement edit functionality
+        console.log('Edit chat:', id);
+    };
+
+    const handleDeleteChat = (id: string) => {
+        setChats(chats.filter(chat => chat.id !== id));
+    };
+
     return (
         // <div className='flex flex-col p-8 h-full'>
         //     <div className='bg-secondary-background border-b h-12'>
@@ -29,17 +51,34 @@ const SideBar = () => {
                     <Search />
                 </section>
                 <section className='px-4 py-8'>
-                    <h1 className='text-foreground'>
-                        Chats
-                    </h1>
-                    {chats.map((chat: Chat) => (
-                        <Chat />
+                    <div className="flex justify-between items-center mb-4">
+                        <h1 className='text-foreground'>
+                            Chats
+                        </h1>
+                        <Button onClick={() => setIsCreateDialogOpen(true)}>
+                            New Chat
+                        </Button>
+                    </div>
+                    {chats.map((chat) => (
+                        <Chat
+                            key={chat.id}
+                            id={chat.id}
+                            firstName={chat.firstName}
+                            lastName={chat.lastName}
+                            onEdit={handleEditChat}
+                            onDelete={handleDeleteChat}
+                        />
                     ))}
                 </section>
             </section>
             <section className='h-full grow'>
                 <Outlet />
             </section>
+            <CreateChatDialog
+                isOpen={isCreateDialogOpen}
+                onClose={() => setIsCreateDialogOpen(false)}
+                onSubmit={handleCreateChat}
+            />
         </div>
     );
 };
