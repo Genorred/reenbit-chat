@@ -2,7 +2,7 @@ import WebSocket from "ws";
 import {QuoteService} from "../services/QuoteService";
 
 // Create an item
-export class ChatController {
+export class WsChatController {
     static getQuoteResponse(ws: WebSocket, chatId: string): any {
         try {
             ws.on('message', async (message) => {
