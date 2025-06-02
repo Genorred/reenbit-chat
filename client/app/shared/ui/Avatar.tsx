@@ -1,18 +1,13 @@
 import React from 'react';
-import Img from "react-optimized-image";
 
 const Avatar = ({src, width, height}: {
     src?: string;
+    alt?: string;
     width: number;
     height: number;
 }) => {
     return (
-        <Img src={{
-            src: src || '/defaultAvatar.svg',
-            width,
-            height,
-            format: 'webp'
-        }} />
+        <img className='rounded-full'  src={src || '/defaultAvatar.svg'} alt={src} width={width} height={height} />
     );
 };
 

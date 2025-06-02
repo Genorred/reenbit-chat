@@ -5,7 +5,7 @@ export default [
     route('sign-up', 'pages/auth/SignUp.tsx'),
     route('verify-email', 'pages/auth/VerifyEmail.tsx'),
 
-    route('chats', 'widgets/sideBar/SideBar.tsx', [
+    route('/', 'widgets/sideBar/SideBar.tsx', [
         index("pages/chats/Chats.tsx"),
         route(':chatId', 'widgets/chatSheet/ChatSheet.tsx'),
     ]),

@@ -1,12 +1,12 @@
-import { Request, Response, NextFunction } from 'express';
+import {NextFunction, Request, Response} from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '../modules/auth/user.model';
+import {User} from '../modules/auth/user.model';
 import config from '../config/config';
-import { cookieOptions } from '../config/cookie.config';
+import {cookieOptions} from '../config/cookie.config';
 
 const JWT_SECRET = config.jwtSecret;
 
-interface JwtPayload {
+export interface JwtPayload {
     userId: string;
     email: string;
 }
@@ -22,8 +22,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
 
     try {
         // Пробуем верифицировать access token
-        const decoded = jwt.verify(accessToken, JWT_SECRET) as JwtPayload;
-        (req as any).user = decoded;
+        (req as any).user = jwt.verify(accessToken, JWT_SECRET) as JwtPayload;
         next();
     } catch (error) {
         // Если access token истек, проверяем refresh token
@@ -35,6 +34,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
         try {
             const decoded = jwt.verify(refreshToken, JWT_SECRET) as JwtPayload;
             User.findById(decoded.userId).then(user => {
+                console.log('refresh tokens are equal', user?.refreshToken !== refreshToken)
                 if (!user || user.refreshToken !== refreshToken) {
                     res.status(401).json({ error: 'Недействительный refresh token' });
                     return;
@@ -56,6 +56,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
                 res.status(500).json({ error: 'Ошибка аутентификации' });
             });
         } catch (error) {
+            console.log(error)
             res.status(401).json({ error: 'Недействительный refresh token' });
         }
     }

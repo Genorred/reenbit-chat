@@ -9,6 +9,8 @@ import dotenv from "dotenv";
 import router from "./routes/router";
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import {URL} from "whatwg-url";
+// import 'types/express.d.ts'
 
 dotenv.config();
 const app = express();
@@ -40,11 +42,13 @@ app.use('/api', router);
         });
 
         wss.on('connection', (ws, req) => {
-            const path = req.url;
-            if (!path)
-                throw new Error(NOTFOUND)
+            if (!req.url){
+                return ws.close(1008, 'URL required')
+            }
+            const url = new URL(req.url, `ws://${req.headers.host}`);
 
-            handleWSNamespaces(path, ws, wss)
+            console.log(url)
+            handleWSNamespaces(url, ws, wss)
         });
 
     } catch (e) {

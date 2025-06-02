@@ -1,1 +1,1 @@
-export const getChatQueryKey = (id: number) => ["chat", id];
+export const getChatQueryKey = (id: string) => ["chat", id];

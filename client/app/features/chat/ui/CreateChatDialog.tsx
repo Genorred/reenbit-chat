@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Dialog } from '~/shared/ui/dialog/Dialog';
 import { Input } from '~/shared/ui/Input';
 import { Button } from '~/shared/ui/Button';
+import { useToastStore } from '~/shared/lib/store/toastStore';
 
 interface CreateChatDialogProps {
     isOpen: boolean;
@@ -16,10 +17,15 @@ export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
 }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const addToast = useToastStore((state) => state.addToast);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSubmit(firstName, lastName);
+        addToast({
+            type: 'success',
+            message: `Chat with ${firstName} ${lastName} created successfully`,
+        });
         setFirstName('');
         setLastName('');
         onClose();

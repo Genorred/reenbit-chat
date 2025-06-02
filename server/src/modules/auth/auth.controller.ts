@@ -10,13 +10,13 @@ export class AuthController {
     async handleGoogleCallback(req: Request, res: Response) {
         try {
             const {token} = req.body;
-            const result = await this.authService.handleGoogleAuth(token);
+            const {accessToken, refreshToken, user} = await this.authService.handleGoogleAuth(token);
             
             res
-                .cookie('accessToken', result.accessToken, cookieOptions)
-                .cookie('refreshToken', result.refreshToken, refreshCookieOptions)
+                .cookie('accessToken', accessToken, cookieOptions)
+                .cookie('refreshToken', refreshToken, refreshCookieOptions)
                 .status(200)
-                .json({ message: 'Аутентификация прошла успешно', user: result.user });
+                .json({ message: 'Аутентификация прошла успешно', user: user });
         } catch (error) {
             if (error instanceof Error) {
                 console.error('Ошибка при аутентификации:', error.message);
@@ -27,11 +27,11 @@ export class AuthController {
 
     async register(req: Request, res: Response) {
         try {
-            const result = await this.authService.register(req.body);
+            const {accessToken, refreshToken, user} = await this.authService.register(req.body);
             res
-                .cookie('accessToken', result.accessToken, cookieOptions)
-                .cookie('refreshToken', result.refreshToken, refreshCookieOptions)
-                .json({ user: result.user });
+                .cookie('accessToken', accessToken, cookieOptions)
+                .cookie('refreshToken', refreshToken, refreshCookieOptions)
+                .json({ user: user });
         } catch (error: any) {
             res.status(400).json({ error: error.message });
         }
@@ -40,11 +40,12 @@ export class AuthController {
     async login(req: Request, res: Response) {
         try {
             const { email, password } = req.body;
-            const result = await this.authService.login(email, password);
+            const {accessToken, refreshToken, user} = await this.authService.login(email, password);
+
             res
-                .cookie('accessToken', result.accessToken, cookieOptions)
-                .cookie('refreshToken', result.refreshToken, refreshCookieOptions)
-                .json({ user: result.user });
+                .cookie('accessToken', accessToken, cookieOptions)
+                .cookie('refreshToken', refreshToken, refreshCookieOptions)
+                .json({ user: user });
         } catch (error: any) {
             res.status(400).json({ error: error.message });
         }

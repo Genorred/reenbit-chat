@@ -27,10 +27,9 @@ interface RegisterData {
 }
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
-const REFRESH_SECRET = process.env.REFRESH_SECRET || 'your-refresh-secret';
 
 export class AuthService {
-    async handleGoogleAuth(token: string): Promise<AuthResult> {
+    async handleGoogleAuth(token: string) {
         const userInfoResponse = await axios.get(
             `https://www.googleapis.com/oauth2/v3/userinfo?alt=json&access_token=${token}`
         );
@@ -51,7 +50,7 @@ export class AuthService {
         return this.generateTokens(user);
     }
 
-    async register(data: RegisterData): Promise<AuthResult> {
+    async register(data: RegisterData) {
         const existingUser = await User.findOne({ email: data.email });
         if (existingUser) {
             throw new Error('Пользователь с таким email уже существует');
@@ -84,7 +83,7 @@ export class AuthService {
         return { message: 'Email успешно подтвержден' };
     }
 
-    async login(email: string, password: string): Promise<AuthResult> {
+    async login(email: string, password: string) {
         const user = await User.findOne({ email });
         if (!user) {
             throw new Error('Пользователь не найден');
@@ -106,9 +105,9 @@ export class AuthService {
         return this.generateTokens(user);
     }
 
-    async refresh(refreshToken: string): Promise<AuthResult> {
+    async refresh(refreshToken: string) {
         try {
-            const decoded = jwt.verify(refreshToken, REFRESH_SECRET) as { userId: string };
+            const decoded = jwt.verify(refreshToken, JWT_SECRET) as { userId: string };
             const user = await User.findById(decoded.userId);
 
             if (!user || user.refreshToken !== refreshToken) {
@@ -125,7 +124,7 @@ export class AuthService {
         await User.findByIdAndUpdate(userId, { refreshToken: null });
     }
 
-    private async generateTokens(user: IUser): Promise<AuthResult> {
+    private async generateTokens(user: IUser) {
         const payload = {
             userId: user._id,
             email: user.email
@@ -133,7 +132,7 @@ export class AuthService {
 
         const refreshToken = jwt.sign(
             payload,
-            REFRESH_SECRET,
+            JWT_SECRET,
             { expiresIn: '7d' }
         );
 
@@ -150,7 +149,12 @@ export class AuthService {
         return {
             accessToken,
             refreshToken,
-            user
+            user: {
+                id: user._id,
+                email: user.email,
+                name: user.name,
+                picture: user.picture,
+            }
         };
     }
 } 

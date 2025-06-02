@@ -5,6 +5,7 @@ import "./app.css";
 import {queryClient} from "~/shared/lib/queryClient";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {GoogleOAuthProvider} from "@react-oauth/google";
+import { ToastContainer } from '~/shared/ui/toast/ToastContainer';
 
 export const links: Route.LinksFunction = () => [
     {rel: "preconnect", href: "https://fonts.googleapis.com"},
@@ -42,6 +43,7 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
             <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
                 <Outlet/>
+                <ToastContainer />
             </GoogleOAuthProvider>
         </QueryClientProvider>
     )
