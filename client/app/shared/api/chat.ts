@@ -12,6 +12,11 @@ export const chatApi = {
         return data;
     },
 
+    searchChats: async (query: string): Promise<Chat[]> => {
+        const { data } = await $authHost.get('/chats/' + query);
+        return data;
+    },
+
     createChat: async (chatData: { firstName: string; lastName: string }): Promise<Chat> => {
         const { data } = await $authHost.post('/chats', chatData);
         return data;

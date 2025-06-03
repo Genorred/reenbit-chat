@@ -10,6 +10,7 @@ chatRouter.use(authMiddleware);
 
 chatRouter.post('/', chatController.createChat);
 chatRouter.get('/', chatController.getChats);
+chatRouter.get('/:query', chatController.searchChats);
 chatRouter.get('/:id/messages', chatController.getChatMessages);
 chatRouter.put('/:id', canModifyChatMiddleware, chatController.updateChat);
 chatRouter.delete('/:id', canModifyChatMiddleware, chatController.deleteChat);

@@ -30,4 +30,8 @@ const chatSchema = new Schema<IChat>(
     }
 );
 
+chatSchema.index({
+    firstName: 'text',
+    lastName: 'text',
+})
 export const Chat = model<IChat>('Chat', chatSchema); 

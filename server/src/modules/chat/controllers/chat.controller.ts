@@ -8,6 +8,18 @@ export class ChatController {
         this.chatService = new ChatService();
     }
 
+    searchChats = async (req: Request, res: Response) => {
+        const {query} = req.params;
+        console.log('query', query);
+        try {
+            const chats = await this.chatService.searchChats(query)
+            res.status(201).json(chats)
+            return
+        } catch (e) {
+            res.status(500).send({error: e});
+        }
+    }
+
     createChat = async (req: Request, res: Response) => {
         try {
             const {firstName, lastName} = req.body;

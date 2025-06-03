@@ -11,6 +11,36 @@ export class ChatService {
         return await chat.save();
     }
 
+    async searchChats(query: string): Promise<IChat[]> {
+        console.log('query', query);
+        const chats = await  Chat.aggregate([
+            {
+                $search: {
+                    index: "default",
+                    compound: {
+                        should: [
+                            {
+                                autocomplete: {
+                                    query,
+                                    path: "firstName"
+                                }
+                            },
+                            {
+                                autocomplete: {
+                                    query,
+                                    path: "lastName"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+
+        ]);
+        console.log('chats', chats);
+        return chats;
+    }
+
     async getChatsByUserId(userId: string): Promise<IChat[]> {
         return Chat.find({userId: new Types.ObjectId(userId)});
     }
