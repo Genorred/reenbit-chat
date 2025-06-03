@@ -18,6 +18,7 @@ interface AuthResult {
     accessToken: string;
     refreshToken: string;
     user: IUser;
+    emailVerificationToken?: string;
 }
 
 interface RegisterData {
@@ -57,12 +58,19 @@ export class AuthService {
         }
 
         const hashedPassword = await bcrypt.hash(data.password, 10);
+        
+        // Генерируем токен подтверждения
+        const emailVerificationToken = crypto.randomBytes(32).toString('hex');
+        const emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 часа
+
         const user = await User.create({
             ...data,
-            password: hashedPassword
+            password: hashedPassword,
+            emailVerificationToken,
+            emailVerificationExpires
         });
 
-        return this.generateTokens(user);
+        return this.generateTokens(user, emailVerificationToken);
     }
 
     async verifyEmail(token: string): Promise<{ message: string }> {
@@ -124,7 +132,7 @@ export class AuthService {
         await User.findByIdAndUpdate(userId, { refreshToken: null });
     }
 
-    private async generateTokens(user: IUser) {
+    private async generateTokens(user: IUser, emailVerificationToken?: string) {
         const payload = {
             userId: user._id,
             email: user.email
@@ -154,7 +162,8 @@ export class AuthService {
                 email: user.email,
                 name: user.name,
                 picture: user.picture,
-            }
+            },
+            emailVerificationToken
         };
     }
 } 

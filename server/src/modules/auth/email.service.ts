@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import config from '../../config/config';
 
-class EmailService {
+export class EmailService {
     private transporter: nodemailer.Transporter;
 
     constructor() {

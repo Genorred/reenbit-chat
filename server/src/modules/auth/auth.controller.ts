@@ -2,11 +2,14 @@ import {Request, Response} from 'express';
 import {AuthService} from './auth.service';
 import config from "../../config/config";
 import { cookieOptions, refreshCookieOptions, clearCookieOptions, clearRefreshCookieOptions } from '../../config/cookie.config';
+import {EmailService} from "./email.service";
 
 export class AuthController {
     private readonly authService: AuthService
+    private readonly emailService: EmailService
     constructor() {
         this.authService = new AuthService();
+        this.emailService = new EmailService();
     }
 
     handleGoogleCallback = async (req: Request, res: Response) => {
@@ -29,7 +32,8 @@ export class AuthController {
 
     register = async (req: Request, res: Response) => {
         try {
-            const {accessToken, refreshToken, user} = await this.authService.register(req.body);
+            const {accessToken, refreshToken, user, emailVerificationToken} = await this.authService.register(req.body);
+            await this.emailService.sendVerificationEmail(user.email, emailVerificationToken!);
             res
                 .cookie('accessToken', accessToken, cookieOptions)
                 .cookie('refreshToken', refreshToken, refreshCookieOptions)

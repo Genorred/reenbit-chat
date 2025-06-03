@@ -17,12 +17,12 @@ const VerifyEmail = () => {
                     throw new Error('Токен подтверждения не найден');
                 }
 
-                const response = await $authHost.get(`/api/auth/verify-email/${token}`);
+                const response = await $authHost.get(`/auth/verify-email/${token}`);
                 setStatus('success');
                 setMessage(response.data.message);
                 
                 setTimeout(() => {
-                    navigate('/auth');
+                    navigate('/');
                 }, 3000);
             } catch (error: any) {
                 setStatus('error');
