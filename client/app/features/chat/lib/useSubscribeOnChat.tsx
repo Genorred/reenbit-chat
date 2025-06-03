@@ -21,7 +21,7 @@ export const useSubscribeOnChat = (id: string, onError?: ()=>void) => {
         onMessage: (message) => {
             console.log('message', message);
             const data: MessageI = JSON.parse(message.data);
-            if (data.type === 'user')
+            if (data.type === 'quote')
                 addToast({
                     type: 'success',
                     message: 'Message was successfully sent',
