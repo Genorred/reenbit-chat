@@ -132,13 +132,13 @@ export class AuthService {
 
         const refreshToken = jwt.sign(
             payload,
-            JWT_SECRET,
+            config.jwtSecret,
             { expiresIn: '7d' }
         );
 
         const accessToken = jwt.sign(
             payload,
-            JWT_SECRET,
+            config.jwtSecret,
             { expiresIn: '15m' }
         );
 

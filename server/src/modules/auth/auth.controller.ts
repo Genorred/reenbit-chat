@@ -4,10 +4,12 @@ import config from "../../config/config";
 import { cookieOptions, refreshCookieOptions, clearCookieOptions, clearRefreshCookieOptions } from '../../config/cookie.config';
 
 export class AuthController {
-    constructor(private readonly authService: AuthService) {
+    private readonly authService: AuthService
+    constructor() {
+        this.authService = new AuthService();
     }
 
-    async handleGoogleCallback(req: Request, res: Response) {
+    handleGoogleCallback = async (req: Request, res: Response) => {
         try {
             const {token} = req.body;
             const {accessToken, refreshToken, user} = await this.authService.handleGoogleAuth(token);
@@ -25,7 +27,7 @@ export class AuthController {
         }
     }
 
-    async register(req: Request, res: Response) {
+    register = async (req: Request, res: Response) => {
         try {
             const {accessToken, refreshToken, user} = await this.authService.register(req.body);
             res
@@ -37,7 +39,7 @@ export class AuthController {
         }
     }
 
-    async login(req: Request, res: Response) {
+    login = async (req: Request, res: Response) => {
         try {
             const { email, password } = req.body;
             const {accessToken, refreshToken, user} = await this.authService.login(email, password);
@@ -51,7 +53,7 @@ export class AuthController {
         }
     }
 
-    async refresh(req: Request, res: Response) {
+    refresh = async (req: Request, res: Response) => {
         try {
             const { refreshToken } = req.body;
             const result = await this.authService.refresh(refreshToken);
@@ -64,10 +66,12 @@ export class AuthController {
         }
     }
 
-    async logout(req: Request, res: Response) {
+    logout = async (req: Request, res: Response) => {
         try {
             const userId = (req as any).user.userId;
-            await this.authService.logout(userId);
+            console.log('ok')
+            console.log('this.authService.logout');
+            await (new AuthService()).logout(userId);
             
             // Очищаем куки с токенами
             res.clearCookie('accessToken', clearCookieOptions);
@@ -79,7 +83,7 @@ export class AuthController {
         }
     }
 
-    async verifyEmail(req: Request, res: Response) {
+    verifyEmail = async (req: Request, res: Response) => {
         try {
             const {token} = req.params;
             const result = await this.authService.verifyEmail(token);

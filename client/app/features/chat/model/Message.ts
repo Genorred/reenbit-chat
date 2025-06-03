@@ -1,5 +1,11 @@
+type MessageTypes = 'user' | 'quote'
 export interface MessageI {
-    username: string,
-    message: string,
-    date: Date,
+    type: MessageTypes
+    chatId: string;
+    content: string;
+    senderId?: string;
+    createdAt: Date;
+    updatedAt: Date;
+    _id: string;
+
 }

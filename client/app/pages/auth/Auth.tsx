@@ -32,7 +32,7 @@ const Auth = ({isLogin}: {
         setError('');
 
         try {
-            const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+            const endpoint = isLogin ? '/auth/login' : '/auth/register';
             const response = await $authHost.post(endpoint, formData);
 
             if (isLogin) {

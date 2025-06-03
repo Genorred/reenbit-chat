@@ -13,26 +13,26 @@ export const $authHost = axios.create({
     withCredentials: true
 });
 
-$authHost.interceptors.response.use(
-    (response) => response,
-    async (error) => {
-        const originalRequest = error.config;
-
-        if (error.response.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;
-
-            try {
-                const response = await $host.post('/auth/refresh');
-                const {user} = response.data;
-
-                useUserStore.getState().set(user);
-                return $authHost(originalRequest);
-            } catch (error) {
-                useUserStore.getState().set(null);
-                throw error;
-            }
-        }
-
-        return Promise.reject(error);
-    }
-);
+// $authHost.interceptors.response.use(
+//     (response) => response,
+//     async (error) => {
+//         const originalRequest = error.config;
+//
+//         if (error.response.status === 401 && !originalRequest._retry) {
+//             originalRequest._retry = true;
+//
+//             try {
+//                 const response = await $host.post('/auth/refresh');
+//                 const {user} = response.data;
+//
+//                 useUserStore.getState().set(user);
+//                 return $authHost(originalRequest);
+//             } catch (error) {
+//                 useUserStore.getState().set(null);
+//                 throw error;
+//             }
+//         }
+//
+//         return Promise.reject(error);
+//     }
+// );

@@ -10,7 +10,9 @@ import router from "./routes/router";
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import {URL} from "whatwg-url";
+import {authenticateWS} from "./middleware/authenticateAuth";
 // import 'types/express.d.ts'
+import {WebSocketServer} from "ws";
 
 dotenv.config();
 const app = express();
@@ -41,14 +43,19 @@ app.use('/api', router);
             host: process.env.HOST,
         });
 
-        wss.on('connection', (ws, req) => {
+        wss.on('connection', async (ws, req) => {
+            const user = await authenticateWS(req, ws);
+            if (!user) return; // Connection already closed if auth failed
+
+            console.log('WebSocket authenticated:', user.userId);
+
             if (!req.url){
                 return ws.close(1008, 'URL required')
             }
             const url = new URL(req.url, `ws://${req.headers.host}`);
 
             console.log(url)
-            handleWSNamespaces(url, ws, wss)
+            handleWSNamespaces(url, ws, wss, user)
         });
 
     } catch (e) {

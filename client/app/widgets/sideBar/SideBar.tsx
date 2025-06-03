@@ -87,12 +87,12 @@ const SideBar = () => {
 
     return (
         <div className='flex h-screen'>
-            <section className='w-full max-w-[640px] h-full border'>
+            <section className='w-full max-w-[640px] flex flex-col h-screen border'>
                 <section className='bg-secondary-background border-b'>
                     <NavBar/>
                     <Search />
                 </section>
-                <section className='px-4 py-8'>
+                <section className='px-4 py-8 grow overflow-y-auto'>
                     <div className="flex justify-between items-center mb-4">
                         <h1 className='text-foreground'>
                             Chats

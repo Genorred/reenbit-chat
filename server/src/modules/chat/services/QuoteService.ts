@@ -18,12 +18,16 @@ export class QuoteService {
             const message = new Message({
                 type: 'quote',
                 content: quote,
-                chatId: new Types.ObjectId(data.userId),
+                chatId: new Types.ObjectId(chatId),
             });
             return await message.save();
         } catch (error) {
-            console.log(`Failed to get quote: ${error}`)
-            return this.defaultMessage
+            const message = new Message({
+                type: 'quote',
+                content: this.defaultMessage,
+                chatId: new Types.ObjectId(chatId),
+            });
+            return await message.save();
         }
     }
 }

@@ -20,6 +20,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
         return;
     }
 
+    console.log(refreshToken);
     try {
         // Пробуем верифицировать access token
         (req as any).user = jwt.verify(accessToken, JWT_SECRET) as JwtPayload;
@@ -32,7 +33,10 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
         }
 
         try {
+            console.log('decode')
+            console.log('secret', JWT_SECRET)
             const decoded = jwt.verify(refreshToken, JWT_SECRET) as JwtPayload;
+            console.log('decoded', decoded);
             User.findById(decoded.userId).then(user => {
                 console.log('refresh tokens are equal', user?.refreshToken !== refreshToken)
                 if (!user || user.refreshToken !== refreshToken) {
