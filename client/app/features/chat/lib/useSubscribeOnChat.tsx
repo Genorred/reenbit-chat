@@ -23,8 +23,8 @@ export const useSubscribeOnChat = (id: string, onError?: ()=>void) => {
             const data: MessageI = JSON.parse(message.data);
             if (data.type === 'quote')
                 addToast({
-                    type: 'success',
-                    message: 'Message was successfully sent',
+                    type: 'info',
+                    message: 'You got a message!',
                 })
             queryClient.setQueryData(queryKey, (oldData: [MessageI]) => {
                 return [...oldData, data];

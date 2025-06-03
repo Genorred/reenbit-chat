@@ -58,10 +58,6 @@ const SideBar = () => {
         mutationFn: chatApi.deleteChat,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['chats'] });
-            addToast({
-                type: 'success',
-                message: 'Chat deleted successfully',
-            });
         },
         onError: () => {
             addToast({
