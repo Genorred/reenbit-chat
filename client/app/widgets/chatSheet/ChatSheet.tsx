@@ -9,9 +9,11 @@ import Message from "~/features/chat/ui/Message";
 import {chatApi} from "~/shared/api/chat";
 import {useParams} from "react-router";
 import SendMessage from "~/features/chat/SendMessage";
+import {useSubscribeOnChat} from "~/features/chat/lib/useSubscribeOnChat";
 
 const ChatSheet = () => {
     const {chatId: id = ''} = useParams();
+
     const messages = useQuery<MessageI[]>({
         queryKey: getChatQueryKey(id),
         queryFn: () => chatApi.getMessages(id)
@@ -21,8 +23,7 @@ const ChatSheet = () => {
         queryFn: chatApi.getChats,
     });
     const chatInfo = chats?.find(chat => chat._id === id)
-    console.log(chats)
-    console.log(chatInfo)
+
     const ref = useRef<HTMLDivElement>(null);
     useLayoutEffect(() => {
         if (ref.current)

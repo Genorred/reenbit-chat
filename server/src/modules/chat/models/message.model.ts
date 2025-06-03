@@ -1,6 +1,6 @@
 import {Document, model, Schema} from 'mongoose';
 
-type MessageTypes = 'user' | 'quote'
+export type MessageTypes = 'user' | 'quote'
 
 export interface IMessage extends Document {
     type: MessageTypes

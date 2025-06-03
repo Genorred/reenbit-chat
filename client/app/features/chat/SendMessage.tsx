@@ -1,19 +1,20 @@
 import React, {useState} from 'react';
-import {useSubscribeOnChat} from "~/features/chat/lib/useSubscribeOnChat";
-import {useParams} from "react-router";
+import { useOnMessage } from "~/features/chat/lib/useSubscribeOnChat";
 import {IoSendSharp} from "react-icons/io5";
+import {CHAT_MESSAGE_TYPES} from "~/features/chat/consts/ChatMessageTypes";
 
 const SendMessage = () => {
-    const {chatId: id = ''} = useParams();
+    const {sendMessage, isOpen} = useOnMessage();
+
     const [value, setValue] = useState<string>('')
-    const [prevValue, setPrevValue] = useState('')
-    const {sendMessage} = useSubscribeOnChat(id, () => {
-        setValue(prevValue)
-    })
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        sendMessage(value)
-        setPrevValue(value)
+        if (isOpen) {
+            sendMessage(JSON.stringify({
+                type: CHAT_MESSAGE_TYPES.SEND_MESSAGE,
+                payload: value
+            }));
+        }
         setValue('')
     }
     return (

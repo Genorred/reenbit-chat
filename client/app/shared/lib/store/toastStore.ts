@@ -8,7 +8,7 @@ export interface Toast {
     message: string;
 }
 
-interface ToastStore {
+export interface ToastStore {
     toasts: Toast[];
     addToast: (toast: Omit<Toast, 'id'>) => void;
     removeToast: (id: string) => void;
