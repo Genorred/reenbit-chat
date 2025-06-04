@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import NavBar from "~/widgets/sideBar/NavBar";
-import {Outlet} from "react-router";
+import {Outlet, useLocation} from "react-router";
 import Search from "~/features/chat/ui/Search";
 import Chat from "~/features/chat/ui/Chat";
 import {CreateChatDialog} from '~/features/chat/ui/CreateChatDialog';
@@ -11,6 +11,7 @@ import {useToastStore} from '~/shared/lib/store/toastStore';
 import useWebSocket from "react-use-websocket";
 import type {ServerMessage} from "~/features/message/model/ServerMessage";
 import {useAutoMessageStore} from "~/features/message/model/autoMessageStore";
+import {cn} from "~/shared/utils/cn";
 
 const SideBar = () => {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -32,9 +33,15 @@ const SideBar = () => {
             })
         }
     }, isAutoMessaging);
+    const pathname = useLocation()
+    console.log(pathname.pathname)
+    const isIndex = pathname.pathname === '/'
     return (
         <div className='flex h-screen'>
-            <section className='w-full max-w-[640px] flex flex-col h-screen border'>
+            <section className={cn('w-full  flex flex-col h-screen border',
+                {
+                    'max-lg:hidden max-w-[clamp(240px,40vw,640px)]': !isIndex,
+                })}>
                 <section className='bg-secondary-background border-b'>
                     <NavBar/>
                     <Search/>

@@ -54,11 +54,11 @@ const Chat: React.FC<ChatProps> = ({id, firstName, lastName}) => {
         <>
             <div onClick={onSelect}
                  className="relative flex items-center justify-between p-4 hover:bg-background-accent cursor-pointer">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center w-full space-x-3">
                     <Avatar alt={`${firstName || ''} ${lastName || ''}'s avatar`} width={72}
                             height={72}/>
-                    <div>
-                        <h3 className="text-foreground font-medium">
+                    <div className='max-w-full overflow-hidden'>
+                        <h3 className="text-foreground font-medium text-ellipsis text-nowrap overflow-hidden">
                             {firstName} {lastName}
                         </h3>
                     </div>
