@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useOnMessage } from "~/features/chat/lib/useSubscribeOnChat";
 import {IoSendSharp} from "react-icons/io5";
 import {CHAT_MESSAGE_TYPES} from "~/features/chat/consts/ChatMessageTypes";
+import {useAutoMessageStore} from "~/features/chat/model/autoMessageStore";
 
 const SendMessage = () => {
     const {sendMessage, isOpen} = useOnMessage();

@@ -12,7 +12,7 @@ export class ChatController {
         const {query} = req.params;
         console.log('query', query);
         try {
-            const chats = await this.chatService.searchChats(query)
+            const chats = await ChatService.searchChats(query)
             res.status(201).json(chats)
             return
         } catch (e) {
@@ -25,7 +25,7 @@ export class ChatController {
             const {firstName, lastName} = req.body;
             const userId = req?.user!.userId;
 
-            const chat = await this.chatService.createChat({
+            const chat = await ChatService.createChat({
                 firstName,
                 lastName,
                 userId,
@@ -40,7 +40,7 @@ export class ChatController {
     getChats = async (req: Request, res: Response) => {
         try {
             const userId = req?.user!.userId;
-            const chats = await this.chatService.getChatsByUserId(userId);
+            const chats = await ChatService.getChatsByUserId(userId);
             res.json(chats);
         } catch (error) {
             res.status(500).json({message: 'Error fetching chats', error});
@@ -52,7 +52,7 @@ export class ChatController {
             const {id} = req.params;
             const userId = req.user!.userId;
 
-            const messages = await this.chatService.getChatMessages(id, userId);
+            const messages = await ChatService.getChatMessages(id, userId);
             res.json(messages);
         } catch (error) {
             if (error instanceof Error) {
@@ -74,7 +74,7 @@ export class ChatController {
             const {id} = req.params;
             const {firstName, lastName} = req.body;
 
-            const newChat = await this.chatService.updateChat(id, {firstName, lastName});
+            const newChat = await ChatService.updateChat(id, {firstName, lastName});
 
             res.json(newChat);
         } catch (error) {
@@ -86,7 +86,7 @@ export class ChatController {
         try {
             const {id} = req.params;
 
-            const chat = await this.chatService.deleteChat(id);
+            const chat = await ChatService.deleteChat(id);
             res.json({message: 'Chat deleted successfully'});
         } catch (error) {
             res.status(500).json({message: 'Error deleting chat', error});

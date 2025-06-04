@@ -29,18 +29,16 @@ export const useOnMessage = () => {
             }
 
             case CHAT_MESSAGE_TYPES.NEW_MESSAGE: {
+
                 if (payload.type === 'quote') {
                     addToast({
                         type: 'info',
                         message: 'You got a message!',
                     });
                 }
-
-                if (payload.chatId === chatId) {
-                    queryClient.setQueryData(queryKey, (oldData: MessageI[] = []) => {
-                        return [...oldData, payload];
-                    });
-                }
+                queryClient.setQueryData(queryKey, (oldData: MessageI[] = []) => {
+                    return [...oldData, payload];
+                });
                 break;
             }
         }
@@ -61,6 +59,7 @@ export const useSubscribeOnChat = (onMessage?: (m: MessageEvent) => void, id: st
         shouldReconnect: event => event.type === "CONNECT",
         onMessage
     });
+
     return {
         sendMessage,
         isOpen: readyState === ReadyState.OPEN

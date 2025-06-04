@@ -63,18 +63,26 @@ export class WsChatController {
     }
 
     static async autoMessaging(ws: WebSocket, userId: string) {
+        console.log('processing new connection...');
+        const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
         const userChats = await ChatService.getChatsByUserId(userId);
-        const sendMessageWithRandomDelay = () => {
-            setTimeout(async () => {
-                const chatIndex = Math.floor(Math.random() / userChats.length);
-                const quote = await QuoteService.getQuote('', userChats[chatIndex]._id);
-                ws.send(JSON.stringify({
-                    type: CHAT_MESSAGE_TYPES.NEW_MESSAGE,
-                    payload: quote
-                }));
-                sendMessageWithRandomDelay()
-            }, Math.random() * 2000);
+        console.log('userChats', userChats);
+        while (ws.readyState === WebSocket.OPEN) {
+            console.log('processing new message...');
+            await sleep(3000 + Math.random() * 2000);
+            const chatIndex = Math.floor( userChats.length * Math.random());
+            console.log('chatIndex', chatIndex);
+            console.log('chat', userChats[chatIndex]);
+            const quote = await QuoteService.getQuote('', userChats[chatIndex]._id);
+            console.log(quote)
+            ws.send(JSON.stringify(
+                {
+                    ...quote,
+                    firstName:userChats[chatIndex].firstName,
+                    lastName:userChats[chatIndex].lastName
+                }
+            ));
         }
-        sendMessageWithRandomDelay()
     }
 }
