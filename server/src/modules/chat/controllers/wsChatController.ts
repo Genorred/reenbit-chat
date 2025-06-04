@@ -3,6 +3,7 @@ import {QuoteService} from "../services/QuoteService";
 import {MessageService} from "../services/MessageService";
 import {CHAT_MESSAGE_TYPES} from "../consts/ChatMessageTypes";
 import {ServerMessage, UpdatePayload} from "../models/ServerMessage";
+import {ChatService} from "../services/chat.service";
 
 // Create an item
 export class WsChatController {
@@ -14,6 +15,7 @@ export class WsChatController {
 
                     case CHAT_MESSAGE_TYPES.UPDATE_MESSAGE: {
                         const payload = data.payload as UpdatePayload;
+                        console.log('update', payload);
                         try {
                             const updatedMessage = await MessageService.updateMessage(
                                 payload.messageId,
@@ -26,6 +28,7 @@ export class WsChatController {
                             }));
                             return;
                         } catch (error) {
+                            console.log(error)
                             ws.send(JSON.stringify({
                                 type: 'error',
                                 payload: error instanceof Error ? error.message : 'Failed to update message'
@@ -57,5 +60,21 @@ export class WsChatController {
         } catch (error) {
             // next(error);
         }
+    }
+
+    static async autoMessaging(ws: WebSocket, userId: string) {
+        const userChats = await ChatService.getChatsByUserId(userId);
+        const sendMessageWithRandomDelay = () => {
+            setTimeout(async () => {
+                const chatIndex = Math.floor(Math.random() / userChats.length);
+                const quote = await QuoteService.getQuote('', userChats[chatIndex]._id);
+                ws.send(JSON.stringify({
+                    type: CHAT_MESSAGE_TYPES.NEW_MESSAGE,
+                    payload: quote
+                }));
+                sendMessageWithRandomDelay()
+            }, Math.random() * 2000);
+        }
+        sendMessageWithRandomDelay()
     }
 }

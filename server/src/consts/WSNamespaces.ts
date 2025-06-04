@@ -1,3 +1,4 @@
 export enum WS_NAMESPACES {
-    CHAT = 'chat'
+    CHAT = 'chat',
+    AUTO_CHAT = 'auto_chat'
 }

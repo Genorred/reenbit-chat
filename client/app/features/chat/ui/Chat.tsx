@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {IoMdMore} from "react-icons/io";
 import Avatar from "~/shared/ui/Avatar";
 import {ConfirmDialog} from '~/shared/ui/dialog/ConfirmDialog';
@@ -39,6 +39,24 @@ const Chat: React.FC<ChatProps> = ({id, firstName, lastName, onEdit, onDelete}) 
     const onSelect = () => {
         navigate(`/${id}`)
     }
+    const actionsRef = useRef<HTMLButtonElement>(null);
+
+    const toggleActions = () => setIsMenuOpen(prev => !prev)
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
+                toggleActions();
+            }
+        };
+
+        if (isMenuOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isMenuOpen, toggleActions]);
     return (
         <>
             <div onClick={onSelect}
@@ -54,8 +72,9 @@ const Chat: React.FC<ChatProps> = ({id, firstName, lastName, onEdit, onDelete}) 
                 </div>
                 <div className="relative">
                     <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="p-2 hover:bg-background-accent rounded-full"
+                        ref={actionsRef}
+                        onClick={toggleActions}
+                        className="p-2 hover:bg-background-accent rounded-full cursor-pointer"
                     >
                         <IoMdMore className="w-5 h-5 text-foreground"/>
                     </button>

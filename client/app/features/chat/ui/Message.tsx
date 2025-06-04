@@ -61,7 +61,7 @@ const Message = ({message}: {message: MessageI }) => {
                                 </span>
                                 <button 
                                     onClick={handleEdit}
-                                    className='p-1 hover:bg-background-accent rounded-full'
+                                    className='p-1 hover:bg-background-accent rounded-full cursor-pointer'
                                 >
                                     <CiEdit className='w-4 h-4 text-foreground' />
                                 </button>

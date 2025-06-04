@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 import { Message } from '../models/message.model';
 
 export class ChatService {
-    async createChat(data: { firstName: string; lastName: string; userId: string }): Promise<IChat> {
+    static async createChat(data: { firstName: string; lastName: string; userId: string }): Promise<IChat> {
         const chat = new Chat({
             ...data,
             userId: new Types.ObjectId(data.userId),
@@ -11,7 +11,7 @@ export class ChatService {
         return await chat.save();
     }
 
-    async searchChats(query: string): Promise<IChat[]> {
+    static async searchChats(query: string): Promise<IChat[]> {
         console.log('query', query);
         const chats = await  Chat.aggregate([
             {
@@ -41,11 +41,11 @@ export class ChatService {
         return chats;
     }
 
-    async getChatsByUserId(userId: string): Promise<IChat[]> {
+    static async getChatsByUserId(userId: string): Promise<IChat[]> {
         return Chat.find({userId: new Types.ObjectId(userId)});
     }
 
-    async updateChat(chatId: string, data: { firstName?: string; lastName?: string }): Promise<IChat | null> {
+    static async updateChat(chatId: string, data: { firstName?: string; lastName?: string }): Promise<IChat | null> {
         return Chat.findByIdAndUpdate(
             chatId,
             {$set: data},
@@ -53,15 +53,15 @@ export class ChatService {
         );
     }
 
-    async deleteChat(chatId: string): Promise<IChat | null> {
+    static async deleteChat(chatId: string): Promise<IChat | null> {
         return Chat.findByIdAndDelete(chatId);
     }
 
-    async getChatById(chatId: string): Promise<IChat | null> {
+    static async getChatById(chatId: string): Promise<IChat | null> {
         return Chat.findById(chatId);
     }
 
-    async getChatMessages(chatId: string, userId: string) {
+    static async getChatMessages(chatId: string, userId: string) {
         const chat = await this.getChatById(chatId);
         
         if (!chat) {

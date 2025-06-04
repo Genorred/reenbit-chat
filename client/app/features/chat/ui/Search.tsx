@@ -34,7 +34,9 @@ const Search = () => {
                    onChange={(e) => setValue(e.target.value)}
                    className='flex gap-2 items-center rounded-3xl px-10 p-2 border w-full'>
             </input>
-            <IoIosSearch className='absolute top-1/2 left-4 -translate-y-1/2'/>
+            <button className='absolute top-1/2 left-4 -translate-y-1/2'>
+                <IoIosSearch />
+            </button>
         </form>
     );
 };

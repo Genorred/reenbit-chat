@@ -9,6 +9,9 @@ export const handleWSNamespaces = (url: URL, ws: WebSocket, wss: WebSocket.Serve
         const id =  searchParams.get('id')
         if (!id)
         return ws.close(1008, 'chat id required')
+        console.log('user', user)
         WsChatController.getQuoteResponse(ws, id, user.userId);
+    } else if (pathname.includes(WS_NAMESPACES.AUTO_CHAT)) {
+        WsChatController.autoMessaging(ws, user.userId);
     }
 }

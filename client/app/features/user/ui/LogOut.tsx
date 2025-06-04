@@ -21,6 +21,7 @@ export const LogOut = () => {
 
     return (
         <Button
+            className='h-fit'
             variant="secondary"
             onClick={handleLogout}
         >

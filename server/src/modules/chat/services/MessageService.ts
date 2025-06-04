@@ -9,7 +9,7 @@ export class MessageService {
             type: 'user',
             content: content,
             chatId: new Types.ObjectId(chatId),
-            userId: new Types.ObjectId(userId),
+            senderId: new Types.ObjectId(userId),
         });
         return await message.save();
     }

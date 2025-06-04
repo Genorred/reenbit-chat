@@ -9,25 +9,26 @@ import {useParams} from "react-router";
 
 export const useOnMessage = () => {
     const addToast = useToastStore(state => state.addToast)
-    const { chatId = '' } = useParams();
+    const {chatId = ''} = useParams();
     const queryKey = getChatQueryKey(chatId);
 
     const onMessage = (message: MessageEvent) => {
         const data = JSON.parse(message.data);
-        const { type, payload }: ServerMessage = data;
+        const {type, payload}: ServerMessage = data;
 
         switch (type) {
-            case CHAT_MESSAGE_TYPES.UPDATE_MESSAGE:
+            case CHAT_MESSAGE_TYPES.UPDATE_MESSAGE: {
                 queryClient.setQueryData(queryKey, (oldData: MessageI[] = []) => {
                     return oldData.map(msg =>
                         msg._id === payload._id
-                            ? { ...msg, content: payload.content }
+                            ? {...msg, content: payload.content}
                             : msg
                     );
                 });
                 break;
+            }
 
-            case CHAT_MESSAGE_TYPES.NEW_MESSAGE:
+            case CHAT_MESSAGE_TYPES.NEW_MESSAGE: {
                 if (payload.type === 'quote') {
                     addToast({
                         type: 'info',
@@ -35,10 +36,13 @@ export const useOnMessage = () => {
                     });
                 }
 
-                queryClient.setQueryData(queryKey, (oldData: MessageI[] = []) => {
-                    return [...oldData, payload];
-                });
+                if (payload.chatId === chatId) {
+                    queryClient.setQueryData(queryKey, (oldData: MessageI[] = []) => {
+                        return [...oldData, payload];
+                    });
+                }
                 break;
+            }
         }
     }
 
