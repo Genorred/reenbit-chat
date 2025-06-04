@@ -12,8 +12,7 @@ export class ChatService {
     }
 
     static async searchChats(query: string): Promise<IChat[]> {
-        console.log('query', query);
-        const chats = await  Chat.aggregate([
+        return  Chat.aggregate([
             {
                 $search: {
                     index: "default",
@@ -37,8 +36,6 @@ export class ChatService {
             }
 
         ]);
-        console.log('chats', chats);
-        return chats;
     }
 
     static async getChatsByUserId(userId: string): Promise<IChat[]> {

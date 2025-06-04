@@ -12,7 +12,6 @@ const Search = () => {
     const searchChatsMutation = useMutation({
         mutationFn: chatApi.searchChats,
         onSuccess: (data) => {
-            console.log('new chat', data.toString());
             queryClient.setQueryData(['chats'], (prev: any) => {
                 return data
             });

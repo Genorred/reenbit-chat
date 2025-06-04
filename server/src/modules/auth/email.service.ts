@@ -31,24 +31,6 @@ export class EmailService {
 
         await this.transporter.sendMail(mailOptions);
     }
-
-    async sendPasswordResetEmail(email: string, token: string): Promise<void> {
-        const resetUrl = `${config.clientUrl}/reset-password?token=${token}`;
-        
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: 'Сброс пароля',
-            html: `
-                <h1>Сброс пароля</h1>
-                <p>Для сброса пароля перейдите по ссылке:</p>
-                <a href="${resetUrl}">${resetUrl}</a>
-                <p>Ссылка действительна в течение 1 часа.</p>
-            `
-        };
-
-        await this.transporter.sendMail(mailOptions);
-    }
 }
 
 export const emailService = new EmailService(); 

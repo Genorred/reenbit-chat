@@ -15,7 +15,6 @@ export class WsChatController {
 
                     case CHAT_MESSAGE_TYPES.UPDATE_MESSAGE: {
                         const payload = data.payload as UpdatePayload;
-                        console.log('update', payload);
                         try {
                             const updatedMessage = await MessageService.updateMessage(
                                 payload.messageId,
@@ -28,7 +27,6 @@ export class WsChatController {
                             }));
                             return;
                         } catch (error) {
-                            console.log(error)
                             ws.send(JSON.stringify({
                                 type: 'error',
                                 payload: error instanceof Error ? error.message : 'Failed to update message'
@@ -63,19 +61,13 @@ export class WsChatController {
     }
 
     static async autoMessaging(ws: WebSocket, userId: string) {
-        console.log('processing new connection...');
         const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
         const userChats = await ChatService.getChatsByUserId(userId);
-        console.log('userChats', userChats);
         while (ws.readyState === WebSocket.OPEN) {
-            console.log('processing new message...');
-            await sleep(3000 + Math.random() * 2000);
+            await sleep(2000 + Math.random() * 2000);
             const chatIndex = Math.floor( userChats.length * Math.random());
-            console.log('chatIndex', chatIndex);
-            console.log('chat', userChats[chatIndex]);
             const quote = await QuoteService.getQuote('', userChats[chatIndex]._id);
-            console.log(quote)
             ws.send(JSON.stringify(
                 {
                     ...quote,

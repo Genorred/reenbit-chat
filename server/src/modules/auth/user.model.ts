@@ -73,7 +73,6 @@ userSchema.pre('save', async function (next) {
     }
 });
 
-// Метод для сравнения паролей
 userSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
     if (!this.password) return false;
     return bcrypt.compare(candidatePassword, this.password);

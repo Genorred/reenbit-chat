@@ -1,6 +1,6 @@
 import express from 'express';
 import WebSocket from 'ws';
-import {errorHandler} from "./middlewares/errorHandling";
+import {errorHandler} from "./middleware/errorHandling";
 // import router from "./routes/router";
 import * as mongoose from "mongoose";
 import { handleWSNamespaces } from './routes/handleWSNamespaces';

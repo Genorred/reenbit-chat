@@ -10,7 +10,6 @@ export class ChatController {
 
     searchChats = async (req: Request, res: Response) => {
         const {query} = req.params;
-        console.log('query', query);
         try {
             const chats = await ChatService.searchChats(query)
             res.status(201).json(chats)

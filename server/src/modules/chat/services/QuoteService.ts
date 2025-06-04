@@ -6,9 +6,6 @@ export class QuoteService {
 
     static async getQuote(message: string, chatId: string) {
         const url = new URL('https://zenquotes.io/api/quotes');
-        // url.searchParams.set('query', message);
-        // url.searchParams.set('limit', '1');
-        // url.searchParams.set('page', '1');
 
         try {
             const response = await fetch(url.href)

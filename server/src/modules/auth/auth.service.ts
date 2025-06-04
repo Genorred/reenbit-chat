@@ -3,8 +3,6 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { IUser, User } from './user.model';
 import config from '../../config/config';
-import { oauth2Client } from "./google";
-import { emailService } from "./email.service";
 import bcrypt from 'bcryptjs';
 
 interface GoogleUser {
@@ -59,7 +57,6 @@ export class AuthService {
 
         const hashedPassword = await bcrypt.hash(data.password, 10);
         
-        // Генерируем токен подтверждения
         const emailVerificationToken = crypto.randomBytes(32).toString('hex');
         const emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 часа
 
@@ -150,7 +147,6 @@ export class AuthService {
             { expiresIn: '15m' }
         );
 
-        // Сохраняем refresh токен в базе данных
         user.refreshToken = refreshToken;
         await user.save();
 

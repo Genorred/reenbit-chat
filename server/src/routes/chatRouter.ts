@@ -1,7 +1,7 @@
 import {Router} from 'express';
-import {ChatController} from '../modules/chat/controllers/chat.controller';
+import {ChatController} from '../modules/chat/controllers/chatController';
 import {authMiddleware} from '../middleware/auth.middleware';
-import {canModifyChatMiddleware} from "../modules/chat/controllers/canModifyChat.middleware";
+import {canModifyChatMiddleware} from "../modules/chat/middleware/canModifyChat.middleware";
 
 const chatRouter = Router();
 const chatController = new ChatController();

@@ -73,8 +73,6 @@ export class AuthController {
     logout = async (req: Request, res: Response) => {
         try {
             const userId = (req as any).user.userId;
-            console.log('ok')
-            console.log('this.authService.logout');
             await (new AuthService()).logout(userId);
             
             // Очищаем куки с токенами

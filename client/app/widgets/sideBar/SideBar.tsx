@@ -74,9 +74,8 @@ const SideBar = () => {
         createChatMutation.mutate({ firstName, lastName });
     };
 
-    const handleEditChat = ( id: string, firstName: string, lastName: string  ) => {
-        updateChatMutation.mutate({id, firstName, lastName });
-        console.log('Edit chat:', id);
+    const handleEditChat = (id: string) => {
+        updateChatMutation.mutate({id, firstName: '', lastName: '' });
     };
 
     const handleDeleteChat = (id: string) => {

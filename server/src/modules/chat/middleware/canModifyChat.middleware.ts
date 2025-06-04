@@ -7,7 +7,6 @@ export const canModifyChatMiddleware = async (req: Request, res: Response, next:
         const {id} = req.params;
         const userId = req?.user?.userId;
 
-        console.log('userId ', userId, id, req.body);
         const chat = await ChatService.getChatById(id);
         if (!chat) {
             res.status(404).json({message: 'Chat not found'});
