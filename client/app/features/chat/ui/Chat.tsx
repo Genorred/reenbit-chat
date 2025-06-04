@@ -72,7 +72,8 @@ const Chat: React.FC<ChatProps> = ({id, firstName, lastName}) => {
                         <IoMdMore className="w-5 h-5 text-foreground"/>
                     </button>
                     {isMenuOpen && (
-                        <div ref={actionsRef} className="absolute right-0 mt-2 w-48 bg-background rounded-md shadow-lg z-10">
+                        <div ref={actionsRef}
+                             className="absolute right-0 mt-2 w-48 bg-background rounded-md shadow-lg z-10">
                             <div className="py-1">
                                 <button
                                     onClick={handleEditClick}

@@ -1,12 +1,12 @@
 import React from 'react';
-import { cn } from '../utils/cn';
+import {cn} from '../utils/cn';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'text';
     fullWidth?: boolean;
 }
 
-export  const buttonVariants = (variant: ButtonProps['variant']) => cn(
+export const buttonVariants = (variant: ButtonProps['variant']) => cn(
     'rounded-md px-4 py-2 text-sm font-medium transition-colors cursor-pointer',
     {
         'bg-foreground text-white hover:bg-foreground/90': variant === 'primary',
@@ -15,12 +15,12 @@ export  const buttonVariants = (variant: ButtonProps['variant']) => cn(
     },
 )
 export const Button: React.FC<ButtonProps> = ({
-    children,
-    className,
-    variant = 'primary',
-    fullWidth = false,
-    ...props
-}) => {
+                                                  children,
+                                                  className,
+                                                  variant = 'primary',
+                                                  fullWidth = false,
+                                                  ...props
+                                              }) => {
     return (
         <button
             className={cn(

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef} from 'react';
 
 interface DialogProps {
     isOpen: boolean;
@@ -7,7 +7,7 @@ interface DialogProps {
     children: React.ReactNode;
 }
 
-export const Dialog: React.FC<DialogProps> = ({ isOpen, onClose, title, children }) => {
+export const Dialog: React.FC<DialogProps> = ({isOpen, onClose, title, children}) => {
     const dialogRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Dialog } from './Dialog';
-import { Button } from '../Button';
+import {Dialog} from './Dialog';
+import {Button} from '../Button';
 
 interface ConfirmDialogProps {
     isOpen: boolean;
@@ -13,14 +13,14 @@ interface ConfirmDialogProps {
 }
 
 export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
-    isOpen,
-    onClose,
-    onConfirm,
-    title,
-    message,
-    confirmText = 'Confirm',
-    cancelText = 'Cancel',
-}) => {
+                                                                isOpen,
+                                                                onClose,
+                                                                onConfirm,
+                                                                title,
+                                                                message,
+                                                                confirmText = 'Confirm',
+                                                                cancelText = 'Cancel',
+                                                            }) => {
     return (
         <Dialog isOpen={isOpen} onClose={onClose} title={title}>
             <div className="space-y-4">

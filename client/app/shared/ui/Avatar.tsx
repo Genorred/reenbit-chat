@@ -9,7 +9,8 @@ const Avatar = ({src, width, height, alt, className}: {
     className?: string;
 }) => {
     return (
-        <img className={cn('rounded-full', className)}  src={src || '/defaultAvatar.svg'} alt={alt} width={width} height={height} />
+        <img className={cn('rounded-full', className)} src={src || '/defaultAvatar.svg'} alt={alt} width={width}
+             height={height}/>
     );
 };
 

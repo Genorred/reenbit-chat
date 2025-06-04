@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '../utils/cn';
+import {cn} from '../utils/cn';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label?: string;
@@ -7,11 +7,11 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input: React.FC<InputProps> = ({
-    className,
-    label,
-    error,
-    ...props
-}) => {
+                                                className,
+                                                label,
+                                                error,
+                                                ...props
+                                            }) => {
     return (
         <div className="space-y-1">
             {label && (

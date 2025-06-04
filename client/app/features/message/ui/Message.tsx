@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import type {MessageI} from "~/features/message/model/Message";
 import Avatar from "~/shared/ui/Avatar";
-import { format } from 'date-fns';
-import { CiEdit } from "react-icons/ci";
-import { useSubscribeOnChat } from '~/features/message/lib/useSubscribeOnChat';
-import { CHAT_MESSAGE_TYPES } from '~/features/message/consts/ChatMessageTypes';
+import {format} from 'date-fns';
+import {CiEdit} from "react-icons/ci";
+import {useSubscribeOnChat} from '~/features/message/lib/useSubscribeOnChat';
+import {CHAT_MESSAGE_TYPES} from '~/features/message/consts/ChatMessageTypes';
 
-const Message = ({message}: {message: MessageI }) => {
+const Message = ({message}: { message: MessageI }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedContent, setEditedContent] = useState(message.content);
 
@@ -56,14 +56,15 @@ const Message = ({message}: {message: MessageI }) => {
                             </div>
                         ) : (
                             <div className='flex items-center gap-2 max-w-[70%]'>
-                                <span className='bg-secondary-background-accent rounded-3xl px-4 flex items-center text-black py-2 wrap-anywhere'>
+                                <span
+                                    className='bg-secondary-background-accent rounded-3xl px-4 flex items-center text-black py-2 wrap-anywhere'>
                                     {message.content}
                                 </span>
-                                <button 
+                                <button
                                     onClick={handleEdit}
                                     className='p-1 hover:bg-background-accent rounded-full cursor-pointer'
                                 >
-                                    <CiEdit className='w-4 h-4 text-foreground' />
+                                    <CiEdit className='w-4 h-4 text-foreground'/>
                                 </button>
                             </div>
                         )}
@@ -74,7 +75,8 @@ const Message = ({message}: {message: MessageI }) => {
                 <div className='flex gap-2'>
                     <Avatar alt={`companion's avatar`} width={72} height={2}/>
                     <div>
-                        <div className='bg-[#3b4051] my-auto rounded-3xl max-w-[70%] px-4 flex items-center text-white py-2 wrap-anywhere'>
+                        <div
+                            className='bg-[#3b4051] my-auto rounded-3xl max-w-[70%] px-4 flex items-center text-white py-2 wrap-anywhere'>
                             {message.content}
                         </div>
                         <p className='px-2 text-sm mt-2'>{formattedDate}</p>

@@ -1,8 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
-import { Button } from '~/shared/ui/Button';
-import { useUserStore } from '../model/user';
-import { $authHost } from '~/shared/lib/http';
+import {useNavigate} from 'react-router';
+import {Button} from '~/shared/ui/Button';
+import {useUserStore} from '../model/user';
+import {$authHost} from '~/shared/lib/http';
 
 export const LogOut = () => {
     const navigate = useNavigate();

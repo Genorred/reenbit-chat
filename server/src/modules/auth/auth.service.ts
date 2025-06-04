@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import { IUser, User } from './user.model';
+import {IUser, User} from './user.model';
 import config from '../../config/config';
 import bcrypt from 'bcryptjs';
 
@@ -35,7 +35,7 @@ export class AuthService {
 
         const googleUser = userInfoResponse.data;
 
-        let user = await User.findOne({ googleId: googleUser.sub });
+        let user = await User.findOne({googleId: googleUser.sub});
         if (!user) {
             user = await User.create({
                 googleId: googleUser.sub,
@@ -50,13 +50,13 @@ export class AuthService {
     }
 
     async register(data: RegisterData) {
-        const existingUser = await User.findOne({ email: data.email });
+        const existingUser = await User.findOne({email: data.email});
         if (existingUser) {
             throw new Error('Пользователь с таким email уже существует');
         }
 
         const hashedPassword = await bcrypt.hash(data.password, 10);
-        
+
         const emailVerificationToken = crypto.randomBytes(32).toString('hex');
         const emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 часа
 
@@ -73,7 +73,7 @@ export class AuthService {
     async verifyEmail(token: string): Promise<{ message: string }> {
         const user = await User.findOne({
             emailVerificationToken: token,
-            emailVerificationExpires: { $gt: Date.now() }
+            emailVerificationExpires: {$gt: Date.now()}
         });
 
         if (!user) {
@@ -85,11 +85,11 @@ export class AuthService {
         user.emailVerificationExpires = undefined;
         await user.save();
 
-        return { message: 'Email успешно подтвержден' };
+        return {message: 'Email успешно подтвержден'};
     }
 
     async login(email: string, password: string) {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({email});
         if (!user) {
             throw new Error('Пользователь не найден');
         }
@@ -126,7 +126,7 @@ export class AuthService {
     }
 
     async logout(userId: string): Promise<void> {
-        await User.findByIdAndUpdate(userId, { refreshToken: null });
+        await User.findByIdAndUpdate(userId, {refreshToken: null});
     }
 
     private async generateTokens(user: IUser, emailVerificationToken?: string) {
@@ -138,13 +138,13 @@ export class AuthService {
         const refreshToken = jwt.sign(
             payload,
             config.jwtSecret,
-            { expiresIn: '7d' }
+            {expiresIn: '7d'}
         );
 
         const accessToken = jwt.sign(
             payload,
             config.jwtSecret,
-            { expiresIn: '15m' }
+            {expiresIn: '15m'}
         );
 
         user.refreshToken = refreshToken;

@@ -1,5 +1,4 @@
-import { QueryClient } from "@tanstack/react-query";
-import {$authHost} from "~/shared/lib/http";
+import {QueryClient} from "@tanstack/react-query";
 
 // const defaultQueryFn = async (value: any[]) => {
 //

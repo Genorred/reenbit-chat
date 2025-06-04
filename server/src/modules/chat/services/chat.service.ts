@@ -1,6 +1,6 @@
-import { Chat, IChat } from '../models/chat.model';
-import { Types } from 'mongoose';
-import { Message } from '../models/message.model';
+import {Chat, IChat} from '../models/chat.model';
+import {Types} from 'mongoose';
+import {Message} from '../models/message.model';
 
 export class ChatService {
     static async createChat(data: { firstName: string; lastName: string; userId: string }): Promise<IChat> {
@@ -12,7 +12,7 @@ export class ChatService {
     }
 
     static async searchChats(query: string): Promise<IChat[]> {
-        return  Chat.aggregate([
+        return Chat.aggregate([
             {
                 $search: {
                     index: "default",
@@ -60,7 +60,7 @@ export class ChatService {
 
     static async getChatMessages(chatId: string, userId: string) {
         const chat = await this.getChatById(chatId);
-        
+
         if (!chat) {
             throw new Error('Chat not found');
         }
@@ -69,6 +69,6 @@ export class ChatService {
             throw new Error('Access denied');
         }
 
-        return Message.find({ chatId }).sort({ createdAt: 1 });
+        return Message.find({chatId}).sort({createdAt: 1});
     }
 } 

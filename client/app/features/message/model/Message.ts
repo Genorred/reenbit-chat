@@ -1,4 +1,5 @@
 type MessageTypes = 'user' | 'quote'
+
 export interface MessageI {
     type: MessageTypes
     chatId: string;

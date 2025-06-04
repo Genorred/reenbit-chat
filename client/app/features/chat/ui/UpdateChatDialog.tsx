@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Dialog } from '~/shared/ui/dialog/Dialog';
-import { Input } from '~/shared/ui/Input';
-import { Button } from '~/shared/ui/Button';
-import { useToastStore } from '~/shared/lib/store/toastStore';
+import React, {useEffect, useState} from 'react';
+import {Dialog} from '~/shared/ui/dialog/Dialog';
+import {Input} from '~/shared/ui/Input';
+import {Button} from '~/shared/ui/Button';
+import {useToastStore} from '~/shared/lib/store/toastStore';
 import {useMutation} from "@tanstack/react-query";
 import {chatApi} from "~/shared/api/chat";
 import {queryClient} from "~/shared/lib/queryClient";
@@ -18,10 +18,10 @@ interface UpdateChatDialogProps {
 }
 
 export const UpdateChatDialog: React.FC<UpdateChatDialogProps> = ({
-    isOpen,
-    onClose,
-    initialData,
-}) => {
+                                                                      isOpen,
+                                                                      onClose,
+                                                                      initialData,
+                                                                  }) => {
     const [firstName, setFirstName] = useState(initialData.firstName);
     const [lastName, setLastName] = useState(initialData.lastName);
     const addToast = useToastStore((state) => state.addToast);

@@ -1,6 +1,6 @@
 import React from 'react';
-import type { Toast as ToastType } from '~/shared/lib/store/toastStore';
-import { IoMdClose } from 'react-icons/io';
+import type {Toast as ToastType} from '~/shared/lib/store/toastStore';
+import {IoMdClose} from 'react-icons/io';
 
 interface ToastProps {
     toast: ToastType;
@@ -18,7 +18,7 @@ const getToastStyles = (type: ToastType['type']) => {
     return `${baseStyles} ${typeStyles[type]}`;
 };
 
-export const Toast: React.FC<ToastProps> = ({ toast, onClose }) => {
+export const Toast: React.FC<ToastProps> = ({toast, onClose}) => {
     return (
         <div className={getToastStyles(toast.type)}>
             <span>{toast.message}</span>
@@ -26,7 +26,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onClose }) => {
                 onClick={onClose}
                 className="ml-4 hover:opacity-80 transition-opacity"
             >
-                <IoMdClose className="w-5 h-5" />
+                <IoMdClose className="w-5 h-5"/>
             </button>
         </div>
     );

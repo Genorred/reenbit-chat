@@ -1,6 +1,5 @@
 import {Types} from "mongoose";
 import {Message} from "../models/message.model";
-import {CHAT_MESSAGE_TYPES} from "../consts/ChatMessageTypes";
 
 export class MessageService {
 
@@ -16,7 +15,7 @@ export class MessageService {
 
     static async updateMessage(messageId: string, content: string, userId: string) {
         const message = await Message.findById(messageId);
-        
+
         if (!message) {
             throw new Error('Message not found');
         }

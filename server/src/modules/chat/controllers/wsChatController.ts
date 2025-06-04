@@ -67,13 +67,13 @@ export class WsChatController {
         const userChats = await ChatService.getChatsByUserId(userId);
         while (ws.readyState === WebSocket.OPEN) {
             await sleep(2000 + Math.random() * 2000);
-            const chatIndex = Math.floor( userChats.length * Math.random());
+            const chatIndex = Math.floor(userChats.length * Math.random());
             const quote = await QuoteService.getQuote('', userChats[chatIndex]._id);
             ws.send(JSON.stringify(
                 {
                     ...quote,
-                    firstName:userChats[chatIndex].firstName,
-                    lastName:userChats[chatIndex].lastName
+                    firstName: userChats[chatIndex].firstName,
+                    lastName: userChats[chatIndex].lastName
                 }
             ));
         }

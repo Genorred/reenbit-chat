@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {IoSendSharp} from "react-icons/io5";
 import {CHAT_MESSAGE_TYPES} from "~/features/message/consts/ChatMessageTypes";
-import {useAutoMessageStore} from "~/features/message/model/autoMessageStore";
 import {useChatMessageEvents} from "~/features/message/lib/useChatMessageEvents";
 
 const SendMessage = () => {

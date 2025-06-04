@@ -1,5 +1,4 @@
 import axios from "axios";
-import {useUserStore} from '~/features/user/model/user';
 
 const baseURL = `${import.meta.env.VITE_API_URL}/api` || 'http://localhost:5000/api';
 

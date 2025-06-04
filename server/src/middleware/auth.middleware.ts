@@ -16,7 +16,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
     const refreshToken = req.cookies.refreshToken;
 
     if (!accessToken && !refreshToken) {
-        res.status(401).json({ error: 'Требуется аутентификация' });
+        res.status(401).json({error: 'Требуется аутентификация'});
         return;
     }
 
@@ -27,7 +27,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
     } catch (error) {
         // Если access token истек, проверяем refresh token
         if (!refreshToken) {
-            res.status(401).json({ error: 'Требуется аутентификация' });
+            res.status(401).json({error: 'Требуется аутентификация'});
             return;
         }
 
@@ -35,15 +35,15 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
             const decoded = jwt.verify(refreshToken, JWT_SECRET) as JwtPayload;
             User.findById(decoded.userId).then(user => {
                 if (!user || user.refreshToken !== refreshToken) {
-                    res.status(401).json({ error: 'Недействительный refresh token' });
+                    res.status(401).json({error: 'Недействительный refresh token'});
                     return;
                 }
 
                 // Генерируем новый access token
                 const newAccessToken = jwt.sign(
-                    { userId: user._id, email: user.email },
+                    {userId: user._id, email: user.email},
                     JWT_SECRET,
-                    { expiresIn: config.accessExpiration / 1000 } // конвертируем в секунды
+                    {expiresIn: config.accessExpiration / 1000} // конвертируем в секунды
                 );
 
                 // Устанавливаем новый access token в куки
@@ -52,11 +52,11 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
                 (req as any).user = decoded;
                 next();
             }).catch(() => {
-                res.status(500).json({ error: 'Ошибка аутентификации' });
+                res.status(500).json({error: 'Ошибка аутентификации'});
             });
         } catch (error) {
             console.log(error)
-            res.status(401).json({ error: 'Недействительный refresh token' });
+            res.status(401).json({error: 'Недействительный refresh token'});
         }
     }
 }; 

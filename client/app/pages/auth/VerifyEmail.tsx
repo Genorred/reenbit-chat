@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router';
-import { $authHost } from '~/shared/lib/http';
-import { Button } from '~/shared/ui/Button';
+import React, {useEffect, useState} from 'react';
+import {useNavigate, useSearchParams} from 'react-router';
+import {$authHost} from '~/shared/lib/http';
+import {Button} from '~/shared/ui/Button';
 
 const VerifyEmail = () => {
     const [searchParams] = useSearchParams();
@@ -20,7 +20,7 @@ const VerifyEmail = () => {
                 const response = await $authHost.get(`/auth/verify-email/${token}`);
                 setStatus('success');
                 setMessage(response.data.message);
-                
+
                 setTimeout(() => {
                     navigate('/');
                 }, 3000);

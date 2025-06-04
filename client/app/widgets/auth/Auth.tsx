@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { useUserStore } from '~/features/user/model/user';
-import { $authHost } from '~/shared/lib/http';
-import { GoogleLogIn } from '~/features/user/ui/GoogleLogIn';
-import { Button } from '~/shared/ui/Button';
-import { Input } from '~/shared/ui/Input';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router';
+import {useUserStore} from '~/features/user/model/user';
+import {$authHost} from '~/shared/lib/http';
+import {GoogleLogIn} from '~/features/user/ui/GoogleLogIn';
+import {Button} from '~/shared/ui/Button';
+import {Input} from '~/shared/ui/Input';
 
 const Auth = ({isLogin}: {
     isLogin: boolean;
@@ -17,8 +17,12 @@ const Auth = ({isLogin}: {
     });
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const navigateToSignIn = () => {navigate('/sign-in');};
-    const navigateToSignUp = () => {navigate('/sign-up');};
+    const navigateToSignIn = () => {
+        navigate('/sign-in');
+    };
+    const navigateToSignUp = () => {
+        navigate('/sign-up');
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
@@ -108,7 +112,7 @@ const Auth = ({isLogin}: {
                     <div className="mt-6">
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-secondary-background-accent" />
+                                <div className="w-full border-t border-secondary-background-accent"/>
                             </div>
                             <div className="relative flex justify-center text-sm">
                                 <span className="px-2 bg-background text-foreground">
@@ -118,7 +122,7 @@ const Auth = ({isLogin}: {
                         </div>
 
                         <div className="mt-6">
-                            <GoogleLogIn />
+                            <GoogleLogIn/>
                         </div>
                     </div>
                 </form>

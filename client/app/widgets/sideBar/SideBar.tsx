@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import NavBar from "~/widgets/sideBar/NavBar";
-import {Outlet, useParams} from "react-router";
+import {Outlet} from "react-router";
 import Search from "~/features/chat/ui/Search";
 import Chat from "~/features/chat/ui/Chat";
-import { CreateChatDialog } from '~/features/chat/ui/CreateChatDialog';
-import { Button } from '~/shared/ui/Button';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { chatApi } from '~/shared/api/chat';
-import { useToastStore } from '~/shared/lib/store/toastStore';
+import {CreateChatDialog} from '~/features/chat/ui/CreateChatDialog';
+import {Button} from '~/shared/ui/Button';
+import {useQuery} from '@tanstack/react-query';
+import {chatApi} from '~/shared/api/chat';
+import {useToastStore} from '~/shared/lib/store/toastStore';
 import useWebSocket from "react-use-websocket";
 import type {ServerMessage} from "~/features/message/model/ServerMessage";
 import {useAutoMessageStore} from "~/features/message/model/autoMessageStore";
 
 const SideBar = () => {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-    const { data: chats = [] } = useQuery({
+    const {data: chats = []} = useQuery({
         queryKey: ['chats'],
         queryFn: chatApi.getChats,
     });
@@ -37,7 +37,7 @@ const SideBar = () => {
             <section className='w-full max-w-[640px] flex flex-col h-screen border'>
                 <section className='bg-secondary-background border-b'>
                     <NavBar/>
-                    <Search />
+                    <Search/>
                 </section>
                 <section className='px-4 py-8 grow overflow-y-auto'>
                     <div className="flex justify-between items-center mb-4">
@@ -59,7 +59,7 @@ const SideBar = () => {
                 </section>
             </section>
             <section className='h-full grow'>
-                <Outlet />
+                <Outlet/>
             </section>
             <CreateChatDialog
                 isOpen={isCreateDialogOpen}

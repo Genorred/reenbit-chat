@@ -1,9 +1,8 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {IoIosSearch} from "react-icons/io";
-import {useSearchStore} from "~/features/chat/model/search";
 import {useMutation} from "@tanstack/react-query";
 import {chatApi} from "~/shared/api/chat";
-import { queryClient } from '~/shared/lib/queryClient';
+import {queryClient} from '~/shared/lib/queryClient';
 import {useToastStore} from "~/shared/lib/store/toastStore";
 
 const Search = () => {
@@ -34,7 +33,7 @@ const Search = () => {
                    className='flex gap-2 items-center rounded-3xl px-10 p-2 border w-full'>
             </input>
             <button className='absolute top-1/2 left-4 -translate-y-1/2'>
-                <IoIosSearch />
+                <IoIosSearch/>
             </button>
         </form>
     );

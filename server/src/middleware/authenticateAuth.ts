@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import config from '../config/config';
-import { User } from '../modules/auth/user.model';
-import { parse } from 'cookie';
+import {User} from '../modules/auth/user.model';
+import {parse} from 'cookie';
 import {JwtPayload} from "../middleware/auth.middleware";
 import {IncomingMessage} from "node:http";
 import {WebSocket} from 'ws';

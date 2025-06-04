@@ -1,18 +1,16 @@
 import express from 'express';
+// import 'types/express.d.ts'
 import WebSocket from 'ws';
 import {errorHandler} from "./middleware/errorHandling";
 // import router from "./routes/router";
 import * as mongoose from "mongoose";
-import { handleWSNamespaces } from './routes/handleWSNamespaces';
-import {NOTFOUND} from "node:dns";
+import {handleWSNamespaces} from './routes/handleWSNamespaces';
 import dotenv from "dotenv";
 import router from "./routes/router";
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import {URL} from "whatwg-url";
 import {authenticateWS} from "./middleware/authenticateAuth";
-// import 'types/express.d.ts'
-import {WebSocketServer} from "ws";
 
 dotenv.config();
 const app = express();
@@ -49,7 +47,7 @@ app.use('/api', router);
 
             console.log('WebSocket authenticated:', user.userId);
 
-            if (!req.url){
+            if (!req.url) {
                 return ws.close(1008, 'URL required')
             }
             const url = new URL(req.url, `ws://${req.headers.host}`);
@@ -62,7 +60,6 @@ app.use('/api', router);
         console.log(`Error occurred while starting websocket server: ${e}`);
     }
 })()
-
 
 
 // function handleChatNamespace(ws) {

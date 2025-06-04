@@ -16,7 +16,7 @@ export class EmailService {
 
     async sendVerificationEmail(email: string, token: string): Promise<void> {
         const verificationUrl = `${config.clientUrl}/verify-email?token=${token}`;
-        
+
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,

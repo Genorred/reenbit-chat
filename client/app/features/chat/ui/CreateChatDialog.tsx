@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Dialog } from '~/shared/ui/dialog/Dialog';
-import { Input } from '~/shared/ui/Input';
-import { Button } from '~/shared/ui/Button';
-import { useToastStore } from '~/shared/lib/store/toastStore';
+import React, {useState} from 'react';
+import {Dialog} from '~/shared/ui/dialog/Dialog';
+import {Input} from '~/shared/ui/Input';
+import {Button} from '~/shared/ui/Button';
+import {useToastStore} from '~/shared/lib/store/toastStore';
 import {useMutation} from "@tanstack/react-query";
 import {chatApi} from "~/shared/api/chat";
 import {queryClient} from "~/shared/lib/queryClient";
@@ -13,16 +13,16 @@ interface CreateChatDialogProps {
 }
 
 export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
-    isOpen,
-    onClose,
-}) => {
+                                                                      isOpen,
+                                                                      onClose,
+                                                                  }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const addToast = useToastStore((state) => state.addToast);
     const createChatMutation = useMutation({
         mutationFn: chatApi.createChat,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['chats'] });
+            queryClient.invalidateQueries({queryKey: ['chats']});
         },
         onError: () => {
             addToast({

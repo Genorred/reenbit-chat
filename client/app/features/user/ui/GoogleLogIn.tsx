@@ -1,6 +1,5 @@
 import React from "react";
-import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import {useGoogleLogin} from "@react-oauth/google";
 import {$authHost} from "~/shared/lib/http";
 import {useUserStore} from "~/features/user/model/user";
 import {Button} from "~/shared/ui/Button";
@@ -35,7 +34,7 @@ export const GoogleLogIn = () => {
 
     return (
         <Button variant='secondary' fullWidth className='flex gap-2 justify-center items-center h-12'
-            onClick={() => googleLogin()}
+                onClick={() => googleLogin()}
         >
             <FcGoogle className='h-8 w-8'/>
             Sign in with Google
