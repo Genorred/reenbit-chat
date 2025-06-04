@@ -49,7 +49,8 @@ export class WsChatController {
                                 type: CHAT_MESSAGE_TYPES.NEW_MESSAGE,
                                 payload: quote
                             }));
-                        }, Math.max(Date.now() - date - 3000, 0));
+                            // 3 seconds delay from tz
+                        }, Math.max(3000 - (Date.now() - date), 0));
                     }
 
                 }

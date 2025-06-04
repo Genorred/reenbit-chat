@@ -1,6 +1,6 @@
 import { $authHost } from '../lib/http';
 import type {Chat} from '../types/chat.types';
-import type {MessageI} from "~/features/chat/model/Message";
+import type {MessageI} from "~/features/message/model/Message";
 
 export const chatApi = {
     getMessages: async (id: string): Promise<MessageI[]> => {

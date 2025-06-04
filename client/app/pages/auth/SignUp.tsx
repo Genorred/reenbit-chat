@@ -1,5 +1,5 @@
 import React from 'react';
-import Auth from "~/pages/auth/Auth";
+import Auth from "~/widgets/auth/Auth";
 
 const SignUp = () => {
     return <Auth isLogin={false} />;

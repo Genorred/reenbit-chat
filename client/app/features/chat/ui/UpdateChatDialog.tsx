@@ -3,11 +3,13 @@ import { Dialog } from '~/shared/ui/dialog/Dialog';
 import { Input } from '~/shared/ui/Input';
 import { Button } from '~/shared/ui/Button';
 import { useToastStore } from '~/shared/lib/store/toastStore';
+import {useMutation} from "@tanstack/react-query";
+import {chatApi} from "~/shared/api/chat";
+import {queryClient} from "~/shared/lib/queryClient";
 
 interface UpdateChatDialogProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (id: string, firstName: string, lastName: string) => void;
     initialData: {
         id: string;
         firstName: string;
@@ -18,7 +20,6 @@ interface UpdateChatDialogProps {
 export const UpdateChatDialog: React.FC<UpdateChatDialogProps> = ({
     isOpen,
     onClose,
-    onSubmit,
     initialData,
 }) => {
     const [firstName, setFirstName] = useState(initialData.firstName);
@@ -30,9 +31,22 @@ export const UpdateChatDialog: React.FC<UpdateChatDialogProps> = ({
         setLastName(initialData.lastName);
     }, [initialData]);
 
+    const updateChatMutation = useMutation({
+        mutationFn: (data: { id: string; firstName: string; lastName: string }) =>
+            chatApi.updateChat(data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['chats']});
+        },
+        onError: () => {
+            addToast({
+                type: 'error',
+                message: 'Failed to update chat',
+            });
+        },
+    });
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(initialData.id, firstName, lastName);
+        updateChatMutation.mutate({id: initialData.id, firstName, lastName});
         addToast({
             type: 'success',
             message: `Chat with ${firstName} ${lastName} updated successfully`,

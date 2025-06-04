@@ -3,25 +3,37 @@ import { Dialog } from '~/shared/ui/dialog/Dialog';
 import { Input } from '~/shared/ui/Input';
 import { Button } from '~/shared/ui/Button';
 import { useToastStore } from '~/shared/lib/store/toastStore';
+import {useMutation} from "@tanstack/react-query";
+import {chatApi} from "~/shared/api/chat";
+import {queryClient} from "~/shared/lib/queryClient";
 
 interface CreateChatDialogProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: (firstName: string, lastName: string) => void;
 }
 
 export const CreateChatDialog: React.FC<CreateChatDialogProps> = ({
     isOpen,
     onClose,
-    onSubmit,
 }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const addToast = useToastStore((state) => state.addToast);
-
+    const createChatMutation = useMutation({
+        mutationFn: chatApi.createChat,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['chats'] });
+        },
+        onError: () => {
+            addToast({
+                type: 'error',
+                message: 'Failed to create chat',
+            });
+        },
+    });
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(firstName, lastName);
+        createChatMutation.mutate({firstName, lastName});
         addToast({
             type: 'success',
             message: `Chat with ${firstName} ${lastName} created successfully`,

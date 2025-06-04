@@ -1,17 +1,17 @@
 import React, {useLayoutEffect, useRef} from 'react';
 import Avatar from "~/shared/ui/Avatar";
 import {useQuery} from "@tanstack/react-query";
-import type {MessageI} from "~/features/chat/model/Message";
-import {getChatQueryKey} from "~/features/chat/lib/getChatQueryKey";
+import type {MessageI} from "~/features/message/model/Message";
+import {getChatQueryKey} from "~/features/message/lib/getChatQueryKey";
 import {Input} from "~/shared/ui/Input";
 import {Button} from "~/shared/ui/Button";
-import Message from "~/features/chat/ui/Message";
+import Message from "~/features/message/ui/Message";
 import {chatApi} from "~/shared/api/chat";
 import {useParams} from "react-router";
-import SendMessage from "~/features/chat/SendMessage";
-import {useSubscribeOnChat} from "~/features/chat/lib/useSubscribeOnChat";
+import SendMessage from "~/features/message/ui/SendMessage";
+import {useSubscribeOnChat} from "~/features/message/lib/useSubscribeOnChat";
 import Toggle from "~/shared/ui/Toggle";
-import {useAutoMessageStore} from "~/features/chat/model/autoMessageStore";
+import {useAutoMessageStore} from "~/features/message/model/autoMessageStore";
 
 const ChatSheet = () => {
     const {chatId: id = ''} = useParams();

@@ -9,79 +9,17 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { chatApi } from '~/shared/api/chat';
 import { useToastStore } from '~/shared/lib/store/toastStore';
 import useWebSocket from "react-use-websocket";
-import type {ServerMessage} from "~/features/chat/model/ServerMessage";
-import {useAutoMessageStore} from "~/features/chat/model/autoMessageStore";
+import type {ServerMessage} from "~/features/message/model/ServerMessage";
+import {useAutoMessageStore} from "~/features/message/model/autoMessageStore";
 
 const SideBar = () => {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-    const queryClient = useQueryClient();
-    const addToast = useToastStore((state) => state.addToast);
-
     const { data: chats = [] } = useQuery({
         queryKey: ['chats'],
         queryFn: chatApi.getChats,
     });
 
-    const createChatMutation = useMutation({
-        mutationFn: chatApi.createChat,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['chats'] });
-            addToast({
-                type: 'success',
-                message: 'Chat created successfully',
-            });
-        },
-        onError: () => {
-            addToast({
-                type: 'error',
-                message: 'Failed to create chat',
-            });
-        },
-    });
-
-    const updateChatMutation = useMutation({
-        mutationFn: (data: { id: string; firstName: string; lastName: string  }) =>
-            chatApi.updateChat(data),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['chats'] });
-            addToast({
-                type: 'success',
-                message: 'Chat updated successfully',
-            });
-        },
-        onError: () => {
-            addToast({
-                type: 'error',
-                message: 'Failed to update chat',
-            });
-        },
-    });
-
-    const deleteChatMutation = useMutation({
-        mutationFn: chatApi.deleteChat,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['chats'] });
-        },
-        onError: () => {
-            addToast({
-                type: 'error',
-                message: 'Failed to delete chat',
-            });
-        },
-    });
-
-    const handleCreateChat = (firstName: string, lastName: string) => {
-        createChatMutation.mutate({ firstName, lastName });
-    };
-
-    const handleEditChat = (id: string) => {
-        updateChatMutation.mutate({id, firstName: '', lastName: '' });
-    };
-
-    const handleDeleteChat = (id: string) => {
-        deleteChatMutation.mutate(id);
-    };
-
+    const addToast = useToastStore((state) => state.addToast);
     const isAutoMessaging = useAutoMessageStore(state => state.isEnabled);
     const url = new URL(import.meta.env.VITE_WS_API_URL + '/auto-chat' as string);
     useWebSocket<ServerMessage>(url.href, {
@@ -116,8 +54,6 @@ const SideBar = () => {
                             id={chat._id}
                             firstName={chat.firstName}
                             lastName={chat.lastName}
-                            onEdit={handleEditChat}
-                            onDelete={handleDeleteChat}
                         />
                     ))}
                 </section>
@@ -128,7 +64,6 @@ const SideBar = () => {
             <CreateChatDialog
                 isOpen={isCreateDialogOpen}
                 onClose={() => setIsCreateDialogOpen(false)}
-                onSubmit={handleCreateChat}
             />
         </div>
     );

@@ -13,10 +13,7 @@ const NavBar = () => {
                 ?
                 <>
                     <LogOut/>
-                    <div className='w-12 h-12'>
-                        <Avatar width={60} height={60} src={user.picture} />
-
-                    </div>
+                    <Avatar width={60} height={60} src={user.picture} alt='user avatar'/>
                 </>
                 :
                 <LogIn/>

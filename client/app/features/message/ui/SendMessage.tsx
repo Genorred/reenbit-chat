@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { useOnMessage } from "~/features/chat/lib/useSubscribeOnChat";
 import {IoSendSharp} from "react-icons/io5";
-import {CHAT_MESSAGE_TYPES} from "~/features/chat/consts/ChatMessageTypes";
-import {useAutoMessageStore} from "~/features/chat/model/autoMessageStore";
+import {CHAT_MESSAGE_TYPES} from "~/features/message/consts/ChatMessageTypes";
+import {useAutoMessageStore} from "~/features/message/model/autoMessageStore";
+import {useChatMessageEvents} from "~/features/message/lib/useChatMessageEvents";
 
 const SendMessage = () => {
-    const {sendMessage, isOpen} = useOnMessage();
+    const {sendMessage, isOpen} = useChatMessageEvents();
 
     const [value, setValue] = useState<string>('')
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {

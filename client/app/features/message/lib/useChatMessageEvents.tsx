@@ -1,13 +1,13 @@
-import {queryClient} from "~/shared/lib/queryClient";
-import type {MessageI} from "~/features/chat/model/Message";
-import type {ServerMessage} from "~/features/chat/model/ServerMessage";
-import {getChatQueryKey} from "~/features/chat/lib/getChatQueryKey";
-import useWebSocket, {ReadyState} from "react-use-websocket";
 import {useToastStore} from "~/shared/lib/store/toastStore";
-import {CHAT_MESSAGE_TYPES} from "../consts/ChatMessageTypes";
 import {useParams} from "react-router";
+import {getChatQueryKey} from "~/features/message/lib/getChatQueryKey";
+import type {ServerMessage} from "~/features/message/model/ServerMessage";
+import {CHAT_MESSAGE_TYPES} from "~/features/message/consts/ChatMessageTypes";
+import {queryClient} from "~/shared/lib/queryClient";
+import type {MessageI} from "~/features/message/model/Message";
+import {useSubscribeOnChat} from "~/features/message/lib/useSubscribeOnChat";
 
-export const useOnMessage = () => {
+export const useChatMessageEvents = () => {
     const addToast = useToastStore(state => state.addToast)
     const {chatId = ''} = useParams();
     const queryKey = getChatQueryKey(chatId);
@@ -45,23 +45,4 @@ export const useOnMessage = () => {
     }
 
     return useSubscribeOnChat(onMessage, chatId);
-};
-export const useSubscribeOnChat = (onMessage?: (m: MessageEvent) => void, id: string = '') => {
-    const {chatId = id} = useParams();
-    const url = new URL(import.meta.env.VITE_WS_API_URL + '/chat' as string);
-    url.searchParams.set('id', chatId)
-
-    const {
-        sendMessage,
-        readyState,
-    } = useWebSocket<ServerMessage>(url.href, {
-        share: true,
-        shouldReconnect: event => event.type === "CONNECT",
-        onMessage
-    });
-
-    return {
-        sendMessage,
-        isOpen: readyState === ReadyState.OPEN
-    }
 };

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import type {MessageI} from "~/features/chat/model/Message";
+import type {MessageI} from "~/features/message/model/Message";
 import Avatar from "~/shared/ui/Avatar";
 import { format } from 'date-fns';
 import { CiEdit } from "react-icons/ci";
-import { useSubscribeOnChat } from '../lib/useSubscribeOnChat';
-import { CHAT_MESSAGE_TYPES } from '../consts/ChatMessageTypes';
+import { useSubscribeOnChat } from '~/features/message/lib/useSubscribeOnChat';
+import { CHAT_MESSAGE_TYPES } from '~/features/message/consts/ChatMessageTypes';
 
 const Message = ({message}: {message: MessageI }) => {
     const [isEditing, setIsEditing] = useState(false);

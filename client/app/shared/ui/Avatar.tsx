@@ -1,13 +1,15 @@
 import React from 'react';
+import {cn} from "~/shared/utils/cn";
 
-const Avatar = ({src, width, height}: {
+const Avatar = ({src, width, height, alt, className}: {
     src?: string;
     alt?: string;
     width: number;
     height: number;
+    className?: string;
 }) => {
     return (
-        <img className='rounded-full'  src={src || '/defaultAvatar.svg'} alt={src} width={width} height={height} />
+        <img className={cn('rounded-full', className)}  src={src || '/defaultAvatar.svg'} alt={alt} width={width} height={height} />
     );
 };
 

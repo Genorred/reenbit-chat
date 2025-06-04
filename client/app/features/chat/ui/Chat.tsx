@@ -1,30 +1,24 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {IoMdMore} from "react-icons/io";
 import Avatar from "~/shared/ui/Avatar";
-import {ConfirmDialog} from '~/shared/ui/dialog/ConfirmDialog';
 import {UpdateChatDialog} from './UpdateChatDialog';
 import {useNavigate} from "react-router";
+import {DeleteChatDialog} from "~/features/chat/ui/DeleteChatDialog";
 
 interface ChatProps {
     id: string;
     firstName: string;
     lastName: string;
-    onEdit?: (id: string, firstName: string, lastName: string) => void;
-    onDelete?: (id: string) => void;
 }
 
-const Chat: React.FC<ChatProps> = ({id, firstName, lastName, onEdit, onDelete}) => {
+const Chat: React.FC<ChatProps> = ({id, firstName, lastName}) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
     const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
+    const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
     const handleDeleteClick = () => {
         setIsMenuOpen(false);
         setIsDeleteConfirmOpen(true);
-    };
-
-    const handleDeleteConfirm = () => {
-        onDelete?.(id);
     };
 
     const handleEditClick = () => {
@@ -32,20 +26,17 @@ const Chat: React.FC<ChatProps> = ({id, firstName, lastName, onEdit, onDelete}) 
         setIsUpdateDialogOpen(true);
     };
 
-    const handleUpdateSubmit = (id: string, firstName: string, lastName: string) => {
-        onEdit?.(id, firstName, lastName);
-    };
     const navigate = useNavigate()
     const onSelect = () => {
         navigate(`/${id}`)
     }
-    const actionsRef = useRef<HTMLButtonElement>(null);
+    const actionsRef = useRef<HTMLDivElement>(null);
 
     const toggleActions = () => setIsMenuOpen(prev => !prev)
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
-                toggleActions();
+                setIsMenuOpen(false);
             }
         };
 
@@ -57,6 +48,8 @@ const Chat: React.FC<ChatProps> = ({id, firstName, lastName, onEdit, onDelete}) 
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isMenuOpen, toggleActions]);
+
+
     return (
         <>
             <div onClick={onSelect}
@@ -72,48 +65,40 @@ const Chat: React.FC<ChatProps> = ({id, firstName, lastName, onEdit, onDelete}) 
                 </div>
                 <div className="relative">
                     <button
-                        ref={actionsRef}
+
                         onClick={toggleActions}
                         className="p-2 hover:bg-background-accent rounded-full cursor-pointer"
                     >
                         <IoMdMore className="w-5 h-5 text-foreground"/>
                     </button>
                     {isMenuOpen && (
-                        <div className="absolute right-0 mt-2 w-48 bg-background rounded-md shadow-lg z-10">
+                        <div ref={actionsRef} className="absolute right-0 mt-2 w-48 bg-background rounded-md shadow-lg z-10">
                             <div className="py-1">
-                                {onEdit && (
-                                    <button
-                                        onClick={handleEditClick}
-                                        className="block w-full text-left px-4 py-2 text-sm text-foreground hover:bg-background-accent"
-                                    >
-                                        Edit
-                                    </button>
-                                )}
-                                {onDelete && (
-                                    <button
-                                        onClick={handleDeleteClick}
-                                        className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-background-accent"
-                                    >
-                                        Delete
-                                    </button>
-                                )}
+                                <button
+                                    onClick={handleEditClick}
+                                    className="block w-full text-left px-4 py-2 text-sm text-foreground hover:bg-background-accent"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={handleDeleteClick}
+                                    className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-background-accent"
+                                >
+                                    Delete
+                                </button>
                             </div>
                         </div>
                     )}
                 </div>
             </div>
-            <ConfirmDialog
+            <DeleteChatDialog
                 isOpen={isDeleteConfirmOpen}
                 onClose={() => setIsDeleteConfirmOpen(false)}
-                onConfirm={handleDeleteConfirm}
-                title="Delete Chat"
-                message={`Are you sure you want to delete chat with ${firstName} ${lastName}?`}
-                confirmText="Delete"
+                initialData={{id, firstName, lastName}}
             />
             <UpdateChatDialog
                 isOpen={isUpdateDialogOpen}
                 onClose={() => setIsUpdateDialogOpen(false)}
-                onSubmit={handleUpdateSubmit}
                 initialData={{id, firstName, lastName}}
             />
         </>
