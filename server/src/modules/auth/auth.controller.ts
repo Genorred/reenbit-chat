@@ -26,7 +26,7 @@ export class AuthController {
                 .cookie('accessToken', accessToken, cookieOptions)
                 .cookie('refreshToken', refreshToken, refreshCookieOptions)
                 .status(200)
-                .json({message: 'Аутентификация прошла успешно', user: user});
+                .json({message: 'Authentication successful', user: user});
         } catch (error) {
             if (error instanceof Error) {
                 console.error('Ошибка при аутентификации:', error.message);
