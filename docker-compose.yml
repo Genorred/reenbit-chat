@@ -1,15 +1,22 @@
 services:
   client:
+    image: genorred/reenbit-chat:client
     restart: always
     build:
       context: client
       dockerfile: Dockerfile
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt:ro   # SSL-серты (readonly)
+      - ./certbot/www:/var/www/certbot:rw     # webroot для ACME
     env_file:
       - .env
+    depends_on:
+      - server
     ports:
       - "80:80"
       - "443:443"
   server:
+    image: genorred/reenbit-chat:server
     build:
       context: server
       dockerfile: Dockerfile
@@ -17,4 +24,18 @@ services:
     env_file:
       - .env
     ports:
-      - "${SERVER_PORT}:5000"
+      - "5000"
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: >                        # обновляем каждые 12ч
+      sh -c "trap exit TERM; while :; do
+             certbot renew --webroot -w /var/www/certbot;
+             sleep 12h;
+      done"
+    depends_on:
+      - client
+    networks:
+      - webnet
