@@ -32,7 +32,10 @@ const Chat: React.FC<ChatProps> = ({id, firstName, lastName}) => {
     }
     const actionsRef = useRef<HTMLDivElement>(null);
 
-    const toggleActions = () => setIsMenuOpen(prev => !prev)
+    const toggleActions = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
+        setIsMenuOpen(prev => !prev)
+    }
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
