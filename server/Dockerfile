@@ -1,15 +1,13 @@
-FROM node:20.16.0-alpine
-
-WORKDIR /usr/app
+FROM node:20.16.0-alpine AS base
 
 ENV PNPM_HOME="/pnpm"
-
 ENV PATH="$PNPM_HOME:$PATH"
-ENV NODE_ENV=development
-
 RUN npm i -g pnpm
 
-WORKDIR /usr/app/client
+FROM base as build
+
+ENV NODE_ENV=production
+
 COPY ./package.json ./package.json
 COPY ./pnpm-lock.yaml ./pnpm-lock.yaml
 
@@ -17,8 +15,8 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 COPY . .
 
-VOLUME [ "/usr/app/client/node_modules" ]
+VOLUME [ "/node_modules" ]
 
-EXPOSE 3000
+EXPOSE 5000
 
-CMD ["pnpm", "run", "dev"]
+CMD ["pnpm", "run", "start"]

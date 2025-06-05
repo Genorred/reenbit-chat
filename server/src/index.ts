@@ -15,11 +15,12 @@ import {authenticateWS} from "./middleware/authenticateAuth";
 dotenv.config();
 const app = express();
 app.use(express.json());
+console.log('client url', process.env.CLIENT_URL)
 app.use(cors({
     credentials: true,
     origin: process.env.CLIENT_URL
 }));
-const port = process.env.SERVER_PORT || 5000;
+const port = 5000;
 app.use(cookieParser());
 
 // Serve static files
@@ -35,6 +36,7 @@ app.use('/api', router);
 
         const server = app.listen(port, () => {
             console.log(`Server running on http://localhost:${port}`);
+
         });
         const wss = new WebSocket.Server({
             server,

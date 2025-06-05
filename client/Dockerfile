@@ -1,22 +1,28 @@
-FROM node:20-alpine AS development-dependencies-env
-COPY . /app
-WORKDIR /app
-RUN npm ci
+FROM node:20.16.0-alpine as build
 
-FROM node:20-alpine AS production-dependencies-env
-COPY ./package.json package-lock.json /app/
-WORKDIR /app
-RUN npm ci --omit=dev
+ENV PNPM_HOME="/pnpm"
 
-FROM node:20-alpine AS build-env
-COPY . /app/
-COPY --from=development-dependencies-env /app/node_modules /app/node_modules
-WORKDIR /app
-RUN npm run build
+ENV PATH="$PNPM_HOME:$PATH"
+ENV NODE_ENV=production
 
-FROM node:20-alpine
-COPY ./package.json package-lock.json /app/
-COPY --from=production-dependencies-env /app/node_modules /app/node_modules
-COPY --from=build-env /app/build /app/build
-WORKDIR /app
-CMD ["npm", "run", "start"]
+RUN npm i -g pnpm
+
+WORKDIR /client
+COPY ./package.json ./package.json
+COPY ./pnpm-lock.yaml ./pnpm-lock.yaml
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+COPY . .
+
+RUN pnpm run build
+
+VOLUME [ "/node_modules" ]
+
+CMD ["pnpm", "run", "start"]
+
+FROM nginx:alpine
+COPY --from=build /client/build/client /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
