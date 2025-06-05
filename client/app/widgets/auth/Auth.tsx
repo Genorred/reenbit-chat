@@ -43,11 +43,11 @@ const Auth = ({isLogin}: {
                 setUser(response.data.user);
                 navigate('/');
             } else {
-                alert('Письмо с подтверждением отправлено на ваш email');
+                alert('A confirmation email has been sent to your email address.');
                 navigateToSignIn();
             }
         } catch (err: any) {
-            setError(err.response?.data?.error || 'Произошла ошибка');
+            setError(err.response?.data?.error || 'An error has occurred');
         }
     };
 

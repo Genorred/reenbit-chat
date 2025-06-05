@@ -26,7 +26,7 @@ const VerifyEmail = () => {
                 }, 3000);
             } catch (error: any) {
                 setStatus('error');
-                setMessage(error.response?.data?.error || 'Произошла ошибка при подтверждении email');
+                setMessage(error.response?.data?.error || 'An error occurred while confirming your email address.');
             }
         };
 
@@ -38,12 +38,12 @@ const VerifyEmail = () => {
             <div className="max-w-md w-full space-y-8">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground">
-                        Подтверждение email
+                        Email confirmation
                     </h2>
                     <div className="mt-4 text-center">
                         {status === 'loading' && (
                             <div className="text-foreground">
-                                Проверка токена подтверждения...
+                                Verification of the confirmation token...
                             </div>
                         )}
                         {status === 'success' && (
@@ -62,7 +62,7 @@ const VerifyEmail = () => {
                                         variant="secondary"
                                         onClick={() => navigate('/auth')}
                                     >
-                                        Вернуться на страницу входа
+                                        Return to the login page
                                     </Button>
                                 </div>
                             </div>
