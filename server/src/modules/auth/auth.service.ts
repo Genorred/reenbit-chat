@@ -42,7 +42,7 @@ export class AuthService {
                 email: googleUser.email,
                 name: googleUser.name,
                 picture: googleUser.picture,
-                isEmailVerified: true // Google email уже подтвержден
+                isEmailVerified: true
             });
         }
 
@@ -52,7 +52,7 @@ export class AuthService {
     async register(data: RegisterData) {
         const existingUser = await User.findOne({email: data.email});
         if (existingUser) {
-            throw new Error('Пользователь с таким email уже существует');
+            throw new Error('User with such email already exists');
         }
 
         const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -77,7 +77,7 @@ export class AuthService {
         });
 
         if (!user) {
-            throw new Error('Недействительная или истекшая ссылка подтверждения');
+            throw new Error('Invalid or expired confirmation link');
         }
 
         user.isEmailVerified = true;
@@ -85,26 +85,26 @@ export class AuthService {
         user.emailVerificationExpires = undefined;
         await user.save();
 
-        return {message: 'Email успешно подтвержден'};
+        return {message: 'Email successfully confirmed'};
     }
 
     async login(email: string, password: string) {
         const user = await User.findOne({email});
         if (!user) {
-            throw new Error('Пользователь не найден');
+            throw new Error('User not found');
         }
 
         if (!user.password) {
-            throw new Error('Этот аккаунт использует Google для входа');
+            throw new Error('This account uses Google to log in.');
         }
 
         const isPasswordValid = await user.comparePassword(password);
         if (!isPasswordValid) {
-            throw new Error('Неверный пароль');
+            throw new Error('Incorrect password');
         }
 
         if (!user.isEmailVerified) {
-            throw new Error('Email не подтвержден');
+            throw new Error('Email not confirmed');
         }
 
         return this.generateTokens(user);
@@ -116,12 +116,12 @@ export class AuthService {
             const user = await User.findById(decoded.userId);
 
             if (!user || user.refreshToken !== refreshToken) {
-                throw new Error('Недействительный refresh токен');
+                throw new Error('Invalid refresh token');
             }
 
             return this.generateTokens(user);
         } catch (error) {
-            throw new Error('Недействительный refresh токен');
+            throw new Error('Invalid refresh token');
         }
     }
 
