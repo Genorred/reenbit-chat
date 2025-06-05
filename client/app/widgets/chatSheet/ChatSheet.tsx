@@ -31,7 +31,7 @@ const ChatSheet = () => {
             ref.current.scrollTop = ref.current.scrollHeight;
     })
     return (
-        <div className='flex flex-col h-screen'>
+        <div className='flex flex-col h-screen relative'>
             <div className='bg-secondary-background border-b h-20 flex items-center justify-between p-4'>
                 {id ?
                     <>
@@ -56,9 +56,10 @@ const ChatSheet = () => {
                     <Message message={message} key={message._id}/>
                 ))}
             </div>
-            <div className='bg-secondary-background border-t flex'>
+            <div className='bg-secondary-background border-t absolute bottom-0 w-full p-4 right-0'>
                 <SendMessage/>
             </div>
+            <div className='h-[75px]'/>
         </div>
     );
 };
