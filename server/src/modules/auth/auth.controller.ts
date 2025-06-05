@@ -29,9 +29,9 @@ export class AuthController {
                 .json({message: 'Authentication successful', user: user});
         } catch (error) {
             if (error instanceof Error) {
-                console.error('Ошибка при аутентификации:', error.message);
+                console.error('Authentication error:', error.message);
             }
-            res.status(500).json({error: 'Ошибка при аутентификации'});
+            res.status(500).json({error: 'Authentication error'});
         }
     }
 
@@ -84,7 +84,7 @@ export class AuthController {
             res.clearCookie('accessToken', clearCookieOptions);
             res.clearCookie('refreshToken', clearRefreshCookieOptions);
 
-            res.json({message: 'Выход выполнен успешно'});
+            res.json({message: 'The exit was successful.'});
         } catch (error: any) {
             res.status(400).json({error: error.message});
         }
@@ -99,7 +99,7 @@ export class AuthController {
             if (error instanceof Error) {
                 res.status(400).json({error: error.message});
             } else {
-                res.status(500).json({error: 'Ошибка при подтверждении email'});
+                res.status(500).json({error: 'Error confirming email'});
             }
         }
     }
