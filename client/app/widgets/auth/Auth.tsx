@@ -56,7 +56,7 @@ const Auth = ({isLogin}: {
             <div className="max-w-md w-full space-y-8">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground">
-                        {isLogin ? 'Вход в аккаунт' : 'Регистрация'}
+                        {isLogin ? 'Log in account' : 'Registration'}
                     </h2>
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -96,7 +96,7 @@ const Auth = ({isLogin}: {
                     )}
 
                     <Button type="submit" fullWidth>
-                        {isLogin ? 'Войти' : 'Зарегистрироваться'}
+                        {isLogin ? 'Login' : 'Register'}
                     </Button>
 
                     <div className="flex items-center justify-center">
@@ -105,7 +105,7 @@ const Auth = ({isLogin}: {
                             variant="text"
                             onClick={isLogin ? navigateToSignUp : navigateToSignIn}
                         >
-                            {isLogin ? 'Создать аккаунт' : 'Уже есть аккаунт? Войти'}
+                            {isLogin ? 'Create account' : 'Already have an account? Log in'}
                         </Button>
                     </div>
 
