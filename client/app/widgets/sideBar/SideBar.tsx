@@ -12,6 +12,7 @@ import useWebSocket from "react-use-websocket";
 import type {ServerMessage} from "~/features/message/model/ServerMessage";
 import {useAutoMessageStore} from "~/features/message/model/autoMessageStore";
 import {cn} from "~/shared/utils/cn";
+import './sideBar.css'
 
 const SideBar = () => {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -37,8 +38,8 @@ const SideBar = () => {
     console.log(pathname.pathname)
     const isIndex = pathname.pathname === '/'
     return (
-        <div className='flex h-screen'>
-            <section className={cn('w-full  flex flex-col h-screen border',
+        <div className='flex h-screen sideBar'>
+            <section className={cn('w-full  flex flex-col h-screen border max-w-[640px]',
                 {
                     'max-lg:hidden max-w-[clamp(240px,40vw,640px)]': !isIndex,
                 })}>

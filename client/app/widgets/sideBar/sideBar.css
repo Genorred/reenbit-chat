@@ -1,0 +1,9 @@
+.sideBar {
+    height: 100vh;
+}
+
+@supports (height: 100dvh) {
+    .sideBar {
+        height: 100dvh;
+    }
+}
