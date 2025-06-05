@@ -16,12 +16,14 @@ const Chat: React.FC<ChatProps> = ({id, firstName, lastName}) => {
     const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
     const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
-    const handleDeleteClick = () => {
+    const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
         setIsMenuOpen(false);
         setIsDeleteConfirmOpen(true);
     };
 
-    const handleEditClick = () => {
+    const handleEditClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
         setIsMenuOpen(false);
         setIsUpdateDialogOpen(true);
     };
