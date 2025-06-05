@@ -66,7 +66,7 @@ const Auth = ({isLogin}: {
                                 name="name"
                                 type="text"
                                 required
-                                placeholder="Имя"
+                                placeholder="Name"
                                 value={formData.name}
                                 onChange={handleChange}
                             />
@@ -83,7 +83,7 @@ const Auth = ({isLogin}: {
                             name="password"
                             type="password"
                             required
-                            placeholder="Пароль"
+                            placeholder="Password"
                             value={formData.password}
                             onChange={handleChange}
                         />
@@ -116,7 +116,7 @@ const Auth = ({isLogin}: {
                             </div>
                             <div className="relative flex justify-center text-sm">
                                 <span className="px-2 bg-background text-foreground">
-                                    Или
+                                    Or
                                 </span>
                             </div>
                         </div>
