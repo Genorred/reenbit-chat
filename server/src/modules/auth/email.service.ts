@@ -20,12 +20,13 @@ export class EmailService {
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
-            subject: 'Подтверждение email',
+            subject: '    \n' +
+                'Email address confirmation',
             html: `
-                <h1>Подтверждение email</h1>
-                <p>Пожалуйста, подтвердите ваш email, перейдя по ссылке:</p>
+                <h1>Email confirmation</h1>
+                <p>Please confirm your email by clicking on the link:</p>
                 <a href="${verificationUrl}">${verificationUrl}</a>
-                <p>Ссылка действительна в течение 24 часов.</p>
+                <p>The link is valid for 24 hours.</p>
             `
         };
 

@@ -50,7 +50,7 @@ const VerifyEmail = () => {
                             <div className="text-green-600">
                                 {message}
                                 <div className="mt-2 text-sm text-foreground">
-                                    Перенаправление на страницу входа...
+                                    Redirect to login page...
                                 </div>
                             </div>
                         )}
