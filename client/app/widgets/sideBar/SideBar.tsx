@@ -7,10 +7,6 @@ import {CreateChatDialog} from '~/features/chat/ui/CreateChatDialog';
 import {Button} from '~/shared/ui/Button';
 import {useQuery} from '@tanstack/react-query';
 import {chatApi} from '~/shared/api/chat';
-import {useToastStore} from '~/shared/lib/store/toastStore';
-import useWebSocket from "react-use-websocket";
-import type {ServerMessage} from "~/features/message/model/ServerMessage";
-import {useAutoMessageStore} from "~/features/message/model/autoMessageStore";
 import {cn} from "~/shared/utils/cn";
 import './sideBar.css'
 
@@ -21,19 +17,6 @@ const SideBar = () => {
         queryFn: chatApi.getChats,
     });
 
-    const addToast = useToastStore((state) => state.addToast);
-    const isAutoMessaging = useAutoMessageStore(state => state.isEnabled);
-    const url = new URL(import.meta.env.VITE_WS_API_URL + '/auto-chat' as string);
-    useWebSocket<ServerMessage>(url.href, {
-        shouldReconnect: event => event.type === "CONNECT",
-        onMessage: (event) => {
-            const data = JSON.parse(event.data);
-            addToast({
-                type: "info",
-                message: `You got a message from ${data.firstName} ${data.lastName}`,
-            })
-        }
-    }, isAutoMessaging);
     const pathname = useLocation()
     console.log(pathname.pathname)
     const isIndex = pathname.pathname === '/'

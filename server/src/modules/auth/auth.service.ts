@@ -61,7 +61,8 @@ export class AuthService {
         const emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 часа
 
         const user = await User.create({
-            ...data,
+            email: data.email,
+            name: data.name,
             password: hashedPassword,
             emailVerificationToken,
             emailVerificationExpires

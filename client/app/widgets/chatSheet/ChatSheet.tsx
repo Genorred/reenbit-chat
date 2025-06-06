@@ -8,12 +8,11 @@ import {chatApi} from "~/shared/api/chat";
 import {Link, useParams} from "react-router";
 import SendMessage from "~/features/message/ui/SendMessage";
 import Toggle from "~/shared/ui/Toggle";
-import {useAutoMessageStore} from "~/features/message/model/autoMessageStore";
 import {IoIosArrowRoundBack} from "react-icons/io";
+import AutoMessagingToggle from "~/features/message/ui/AutoMessagingToggle";
 
 const ChatSheet = () => {
     const {chatId: id = ''} = useParams();
-    const {isEnabled, setAutoMessage} = useAutoMessageStore();
 
     const messages = useQuery<MessageI[]>({
         queryKey: getChatQueryKey(id),
@@ -44,11 +43,7 @@ const ChatSheet = () => {
                                 <h4>{`${chatInfo?.firstName || ''} ${chatInfo?.lastName || ''}`}</h4>
                             </div>
                         </div>
-                        <Toggle
-                            isEnabled={isEnabled}
-                            onChange={setAutoMessage}
-                            label="Auto messages"
-                        />
+                        <AutoMessagingToggle />
                     </> : null}
             </div>
             <div className='p-4 grow bg-background-accent overflow-y-auto flex flex-col gap-4' ref={ref}>
@@ -56,10 +51,9 @@ const ChatSheet = () => {
                     <Message message={message} key={message._id}/>
                 ))}
             </div>
-            <div className='bg-secondary-background border-t absolute bottom-0 w-full p-4 right-0'>
+            <div className='bg-secondary-background border-t p-4'>
                 <SendMessage/>
             </div>
-            <div className='h-[75px]'/>
         </div>
     );
 };
