@@ -32,13 +32,14 @@ const AutoMessagingToggle = () => {
                     queryClient.setQueryData(queryKey, (oldData: MessageI[] = []) => {
                         return [...oldData, data._doc];
                     })
-                    queryClient.setQueryData(['chats'], (oldData: Chat[] = []) => {
-                        return oldData.map(msg =>
-                            msg._id === data._doc._id
-                                ? {...msg, lastMessage: data._doc.content, lastMessageDate: data._doc.createdAt}
-                                : msg
-                        );
-                    });
+                    queryClient.invalidateQueries({queryKey: ['chats']});
+                    // queryClient.setQueryData(['chats'], (oldData: Chat[] = []) => {
+                    //     return oldData.map(msg =>
+                    //         msg._id === data._doc._id
+                    //             ? {...msg, lastMessage: data._doc.content, lastMessageDate: data._doc.createdAt}
+                    //             : msg
+                    //     );
+                    // });
                 }
             },
             isEnabled

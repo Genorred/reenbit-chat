@@ -40,13 +40,14 @@ export const useChatMessageEvents = () => {
                 queryClient.setQueryData(queryKey, (oldData: MessageI[] = []) => {
                     return [...oldData, payload];
                 });
-                queryClient.setQueryData(['chats'], (oldData: Chat[] = []) => {
-                    return oldData.map(msg =>
-                        msg._id === payload._id
-                            ? {...msg, lastMessage: payload.content, lastMessageDate: new Date().toISOString()}
-                            : msg
-                    );
-                });
+                queryClient.invalidateQueries({queryKey: ['chats']});
+                // queryClient.setQueryData(['chats'], (oldData: Chat[] = []) => {
+                //     return oldData.map(msg =>
+                //         msg._id === payload._id
+                //             ? {...msg, lastMessage: payload.content, lastMessageDate: new Date().toISOString()}
+                //             : msg
+                //     );
+                // });
                 break;
             }
         }
