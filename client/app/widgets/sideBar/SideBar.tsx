@@ -16,6 +16,7 @@ const SideBar = () => {
         queryKey: ['chats'],
         queryFn: chatApi.getChats,
     });
+    console.log(chats)
 
     const pathname = useLocation()
     console.log(pathname.pathname)
@@ -45,6 +46,8 @@ const SideBar = () => {
                             id={chat._id}
                             firstName={chat.firstName}
                             lastName={chat.lastName}
+                            lastMessage={chat.lastMessage}
+                            lastMessageDate={chat.lastMessageDate}
                         />
                     ))}
                 </section>

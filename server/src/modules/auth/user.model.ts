@@ -22,7 +22,7 @@ export interface IUser extends Document {
 
 const userSchema = new Schema<IUser>(
     {
-        googleId: {type: String},
+        googleId: {type: String, sparse: false, index: false, unique: false},
         email: {type: String, required: true, unique: true},
         name: {type: String, required: true},
         password: {type: String},
@@ -78,4 +78,4 @@ userSchema.methods.comparePassword = async function (candidatePassword: string):
     return bcrypt.compare(candidatePassword, this.password);
 };
 
-export const User = mongoose.model<IUser>('User', userSchema); 
+export const User = mongoose.model<IUser>('User', userSchema);

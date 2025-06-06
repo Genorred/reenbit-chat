@@ -4,17 +4,21 @@ import Avatar from "~/shared/ui/Avatar";
 import {UpdateChatDialog} from './UpdateChatDialog';
 import {useNavigate} from "react-router";
 import {DeleteChatDialog} from "~/features/chat/ui/DeleteChatDialog";
+import { format } from 'date-fns';
 
 interface ChatProps {
     id: string;
     firstName: string;
     lastName: string;
+    lastMessage: string;
+    lastMessageDate?: string;
 }
 
-const Chat: React.FC<ChatProps> = ({id, firstName, lastName}) => {
+const Chat: React.FC<ChatProps> = ({id, firstName, lastName, lastMessage, lastMessageDate}) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
     const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+    const formattedLastMessageDate = lastMessageDate && format(new Date(lastMessageDate), 'MMM d, yyyy');
 
     const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
@@ -66,6 +70,9 @@ const Chat: React.FC<ChatProps> = ({id, firstName, lastName}) => {
                         <h3 className="text-foreground font-medium text-ellipsis text-nowrap overflow-hidden">
                             {firstName} {lastName}
                         </h3>
+                        <p>
+                            {lastMessage}
+                        </p>
                     </div>
                 </div>
                 <div className="relative">

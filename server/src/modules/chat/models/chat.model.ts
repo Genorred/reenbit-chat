@@ -7,6 +7,8 @@ export interface IChat extends Document {
     userId: Types.ObjectId;
     createdAt: Date;
     updatedAt: Date;
+    lastMessage: string;
+    lastMessageDate?: Date;
 }
 
 
@@ -25,6 +27,13 @@ const chatSchema = new Schema<IChat>(
             ref: 'User',
             required: true,
         },
+        lastMessage: {
+            type: String,
+            default: 'No messages',
+        },
+        lastMessageDate: {
+            type: Date,
+        }
     },
     {
         timestamps: true,

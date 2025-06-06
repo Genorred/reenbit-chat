@@ -5,4 +5,6 @@ export interface Chat {
     userId: string;
     createdAt: string;
     updatedAt: string;
+    lastMessage: string;
+    lastMessageDate?: string;
 } 

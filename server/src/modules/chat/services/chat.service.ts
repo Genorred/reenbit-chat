@@ -42,7 +42,12 @@ export class ChatService {
         return Chat.find({userId: new Types.ObjectId(userId)});
     }
 
-    static async updateChat(chatId: string, data: { firstName?: string; lastName?: string }): Promise<IChat | null> {
+    static async updateChat(chatId: string, data: {
+        firstName?: string;
+        lastName?: string,
+        lastMessage?: string,
+        lastMessageDate?: Date
+    }): Promise<IChat | null> {
         return Chat.findByIdAndUpdate(
             chatId,
             {$set: data},

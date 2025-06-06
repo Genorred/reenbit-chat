@@ -1,4 +1,6 @@
 import {Document, model, Schema} from 'mongoose';
+import {Chat} from "./chat.model";
+import {ChatService} from "../services/chat.service";
 
 export type MessageTypes = 'user' | 'quote'
 
@@ -37,4 +39,17 @@ const messageSchema = new Schema<IMessage>(
     }
 );
 
-export const Message = model<IMessage>('Message', messageSchema); 
+messageSchema.pre('save', async function (next) {
+    const content = this.content
+    if (this.isNew)
+        try {
+            void ChatService.updateChat(this.chatId.toString(), {
+                lastMessage: content,
+                lastMessageDate: this.createdAt
+            });
+        } catch (error) {
+            // next(error as Error);
+        }
+    next();
+});
+export const Message = model<IMessage>('Message', messageSchema);
