@@ -7,6 +7,7 @@ import type {ServerMessage} from "~/features/message/model/ServerMessage";
 import {queryClient} from "~/shared/lib/queryClient";
 import type {MessageI} from "~/features/message/model/Message";
 import {getChatQueryKey} from "~/features/message/lib/getChatQueryKey";
+import type {Chat} from "~/shared/types/chat.types";
 
 const AutoMessagingToggle = () => {
         const {isEnabled, setAutoMessage} = useAutoMessageStore();
@@ -31,6 +32,13 @@ const AutoMessagingToggle = () => {
                     queryClient.setQueryData(queryKey, (oldData: MessageI[] = []) => {
                         return [...oldData, data._doc];
                     })
+                    queryClient.setQueryData(['chats'], (oldData: Chat[] = []) => {
+                        return oldData.map(msg =>
+                            msg._id === data._doc._id
+                                ? {...msg, lastMessage: data._doc.content, lastMessageDate: data._doc.createdAt}
+                                : msg
+                        );
+                    });
                 }
             },
             isEnabled

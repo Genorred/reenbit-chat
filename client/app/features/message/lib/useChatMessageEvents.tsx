@@ -6,6 +6,7 @@ import {CHAT_MESSAGE_TYPES} from "~/features/message/consts/ChatMessageTypes";
 import {queryClient} from "~/shared/lib/queryClient";
 import type {MessageI} from "~/features/message/model/Message";
 import {useSubscribeOnChat} from "~/features/message/lib/useSubscribeOnChat";
+import type {Chat} from "~/shared/types/chat.types";
 
 export const useChatMessageEvents = () => {
     const addToast = useToastStore(state => state.addToast)
@@ -38,6 +39,13 @@ export const useChatMessageEvents = () => {
                 }
                 queryClient.setQueryData(queryKey, (oldData: MessageI[] = []) => {
                     return [...oldData, payload];
+                });
+                queryClient.setQueryData(['chats'], (oldData: Chat[] = []) => {
+                    return oldData.map(msg =>
+                        msg._id === payload._id
+                            ? {...msg, lastMessage: payload.content, lastMessageDate: new Date().toISOString()}
+                            : msg
+                    );
                 });
                 break;
             }

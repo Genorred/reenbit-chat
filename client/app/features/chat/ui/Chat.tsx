@@ -14,7 +14,7 @@ interface ChatProps {
     lastMessageDate?: string;
 }
 
-const Chat: React.FC<ChatProps> = ({id, firstName, lastName, lastMessage, lastMessageDate}) => {
+const Chat: React.FC<ChatProps> = ({id, firstName, lastName, lastMessage = 'No messages', lastMessageDate = new Date()}) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
     const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
@@ -70,10 +70,13 @@ const Chat: React.FC<ChatProps> = ({id, firstName, lastName, lastMessage, lastMe
                         <h3 className="text-foreground font-medium text-ellipsis text-nowrap overflow-hidden">
                             {firstName} {lastName}
                         </h3>
-                        <p>
+                        <p className='text-sm text-black/70'>
                             {lastMessage}
                         </p>
                     </div>
+                    <p className='text-sm ml-auto text-black/70'>
+                        {formattedLastMessageDate}
+                    </p>
                 </div>
                 <div className="relative">
                     <button
