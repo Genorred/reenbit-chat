@@ -70,7 +70,7 @@ const Chat: React.FC<ChatProps> = ({id, firstName, lastName, lastMessage = 'No m
                         <h3 className="text-foreground font-medium text-ellipsis text-nowrap overflow-hidden">
                             {firstName} {lastName}
                         </h3>
-                        <p className='text-sm text-black/70'>
+                        <p className='text-sm line-clamp-2 text-ellipsis text-black/70'>
                             {lastMessage}
                         </p>
                     </div>
